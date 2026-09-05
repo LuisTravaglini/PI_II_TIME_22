@@ -1,32 +1,121 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-   <title>Meu Site</title>
-   <meta charset="UTF-8">
-   <meta name="description" content="Descrição do meu site">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css">
-   <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>Document</title>
 </head>
 <body>
-   <div class="login-container">
-      <img src="TRAK_LOGO_cortada.png" class="logo">
-      <form class="login-form">
-         <h1>Entrar</h1>
-         <div class="grupo-input">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" placeholder="seuemail@exemplo.com">
-         </div>
-
-         <div class="grupo-input">
-            <label for="senha">Senha</label>
-            <input type="password" if="senha" placeholder="********">
-         </div>
-
-         <button type="submit">Entrar</button>
-
-         <p class="link">Não tem conta? <a href="#">Cadastre-se</a></p>
-      </form>
-   </div>
+    <header class="p-3 text-bg-dark cabecalho">
+        <div class="container">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+          >
+            <a
+              href="/"
+              class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+            >
+              <svg
+                class="bi me-2"
+                width="40"
+                height="32"
+                role="img"
+                aria-label="Bootstrap"
+              >
+                <use xlink:href="#bootstrap"></use>
+              </svg>
+            </a>
+            <ul
+              class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+            >
+              <li><a href="#" class="nav-link px-2 inicio">Inicio</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Sobre</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            </ul>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input
+                type="search"
+                class="form-control form-control-dark text-bg-white"
+                placeholder="Search..."
+                aria-label="Search"
+              />
+            </form>
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light me-2 botao-login">
+                Login
+              </button>
+              <button type="button" class="btn btn-warning botao-cadastro">Cadastre-se</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="b-example-divider"></div>
+      <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div class="col-10 col-sm-8 col-lg-6 caixa-logo">
+            <img
+              src="TRAK_LOGO_cortada.png"
+              class="d-block mx-lg-auto img-fluid imagem-logo"
+              alt="Logo Trak"
+              width="700"
+              height="500"
+              loading="lazy"
+            />
+          </div>
+          <div class="col-lg-6 apresentacao">
+            <h1 class="display-5 fw-bold lh-1 mb-3 titulo-apresentacao">
+              Organize as demandas da sua empresa em um só lugar
+            </h1>
+            <p class="lead texto-apresentacao">
+              Centralize solicitações, defina responsáveis e acompanhe cada etapa do trabalho
+              com clareza. Menos mensagens perdidas, mais entregas no prazo.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 botao-comecar">
+                Começar Agora <!--Leva para o Cadastro-->
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-lg px-4 botao-conhecer"
+              >
+                Conhecer plataforma <!--Rola a página até SOBRE-->
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top"
+      >
+        <p class="col-md-4 mb-0 text-body-secondary">
+          &copy; 2025 Trak. Todos os direitos reservados.
+        </p>
+        <a
+          href="/"
+          class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+          aria-label="Bootstrap"
+        >
+          <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+        </a>
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Inicio</a>
+          </li>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+          </li>
+        </ul>
+      </footer>
 </body>
 </html>
