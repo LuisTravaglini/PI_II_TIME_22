@@ -1,0 +1,191 @@
+<header class="p-3 text-bg-dark cabecalho">
+        <div class="container">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+          >
+            <a
+              href="/"
+              class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+            >
+              <svg
+                class="bi me-2"
+                width="40"
+                height="32"
+                role="img"
+                aria-label="Bootstrap"
+              >
+                <use xlink:href="#bootstrap"></use>
+              </svg>
+            </a>
+            <ul
+              class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+            >
+              <li><a href="#" class="nav-link px-2 inicio">Inicio</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Sobre</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            </ul>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input
+                type="search"
+                class="form-control form-control-dark text-bg-white"
+                placeholder="Search..."
+                aria-label="Search"
+              />
+            </form>
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light me-2 botao-login">
+                Login
+              </button>
+              <button type="button" class="btn btn-warning botao-cadastro">Cadastre-se</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="b-example-divider"></div>
+      <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div class="col-10 col-sm-8 col-lg-6 caixa-logo">
+            <img
+              src="TRAK_LOGO_cortada.png"
+              class="d-block mx-lg-auto img-fluid imagem-logo"
+              alt="Logo Trak"
+              width="700"
+              height="500"
+              loading="lazy"
+            />
+          </div>
+          <div class="col-lg-6 apresentacao">
+            <h1 class="display-5 fw-bold lh-1 mb-3 titulo-apresentacao">
+              Organize as demandas da sua empresa em um só lugar
+            </h1>
+            <p class="lead texto-apresentacao">
+              Centralize solicitações, defina responsáveis e acompanhe cada etapa do trabalho
+              com clareza. Menos mensagens perdidas, mais entregas no prazo.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 botao-comecar">
+                Começar Agora <!--Leva para o Cadastro-->
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-lg px-4 botao-conhecer"
+              >
+                Conhecer plataforma <!--Rola a página até SOBRE-->
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top"
+      >
+        <p class="col-md-4 mb-0 text-body-secondary">
+          &copy; 2025 Trak. Todos os direitos reservados.
+        </p>
+        <a
+          href="/"
+          class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+          aria-label="Bootstrap"
+        >
+          <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+        </a>
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Inicio</a>
+          </li>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+          </li>
+        </ul>
+      </footer>
+
+
+      :root{
+    --cor-principal: #03495D;
+    --cor-fundo: rgb(187, 200, 202);
+}
+
+html,body {
+    min-height: 100%;
+}
+
+body {
+    background-color: rgb(187, 200, 202);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-block-size: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.inicio {
+    color: white;
+}
+
+.inicio:hover {
+    color: #c2c2c2
+}
+
+.pesquisa {
+    background-color: white;
+}
+
+.cabecalho {
+    background: linear-gradient(90deg, #0D7B87, var(--cor-principal));
+}
+
+.titulo-apresentacao {
+    color:#032529;
+}
+
+.texto-apresentacao {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(23, 124, 131);
+    font-weight: 600; 
+}
+
+.botao-cadastro {
+    background-color: white;
+    border: 1px solid #012327;
+}
+
+.botao-cadastro:hover {
+    background-color: #c2c2c2;
+    border: none;
+}
+
+.botao-comecar {
+    background-color: #03495D;
+    border: 1px solid White;
+}
+
+.botao-comecar:hover {
+    background-color: #ffffff;
+    color: black;
+}
+
+.botao-conhecer {
+    background-color: #ffffff;
+    border: 1px solid #03495D;
+}
+
+.caixa-logo {
+    height: 400px;
+    background-color: whitesmoke;
+    border-radius: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid #03495D;
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px;
+}
