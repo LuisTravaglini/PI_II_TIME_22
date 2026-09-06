@@ -1,0 +1,70 @@
+:root {
+    --azul-escuro: #03495d;
+    --azul: #0d7b87;
+    --fundo: #bbc8ca;
+    --texto: #263238;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--fundo);
+    color: var(--texto);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cabecalho {
+    background: linear-gradient(90deg, var(--azul), var(--azul-escuro));
+}
+
+.marca img {
+    width: 110px;
+    height: auto;
+}
+
+.cabecalho a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cabecalho nav a {
+    opacity: 0.8;
+}
+
+.cabecalho nav a:hover,
+.cabecalho nav .ativo {
+    opacity: 1;
+    border-bottom: 2px solid #fff;
+}
+
+.usuario {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.9rem;
+}
+
+.usuario:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+h1 {
+    color: var(--azul-escuro);
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.caminho {
+    color: #52676b;
+    font-size: 0.9rem;
+}
+
+.caminho span {
+    color: var(--azul-escuro);
+    font-weight: 600;
+}
+
+.subtitulo,
+.texto-apoio {
+    color: #5e6c70;
+}
