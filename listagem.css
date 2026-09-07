@@ -1,4 +1,4 @@
- /*                                                            <!-- Autor: Joao Pedro Cayres Villela  -->                                 */
+/*                                                            <!-- Autor: Joao Pedro Cayres Villela  -->                                 */
 * {
     margin: 0;
     padding: 0;
@@ -12,8 +12,8 @@ body {
 }
 
 header {
-    background-color: rgb(187, 200, 202);
-    color: #000000;
+    background-color: #03495D;
+    color: #ffffff;
     padding: 15px 30px;
 }
 
@@ -28,10 +28,22 @@ main {
     color:#03495D;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
 .controles-listagem {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 15px;
     margin-bottom: 20px;
     background-color: rgb(187, 200, 202);
@@ -42,9 +54,18 @@ main {
 .controles-listagem input, 
 .controles-listagem select {
     padding: 10px;
-    border: 1px solid #000000;
+    border: 1px solid #4d5c5e;
     border-radius: 4px;
     font-size: 1rem;
+    background-color: #ffffff;
+}
+
+.controles-listagem input:focus-visible,
+.controles-listagem select:focus-visible,
+.btn-primario:focus-visible,
+.btn-detalhes:focus-visible {
+    outline: 3px solid #03495D;
+    outline-offset: 2px;
 }
 
 #busca-demanda {
@@ -53,10 +74,10 @@ main {
 }
 
 .area-dados {
-    background-color: rgb(187, 200, 202);
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px #03495D;
+    box-shadow: 0 2px 4px rgba(3, 73, 93, 0.3);
     overflow-x: auto;                           /* Permite rolagem lateral se a tela for pequena, pesquisei no site IONOS.com */
 }
 
@@ -69,13 +90,17 @@ main {
 .tabela-demandas th, 
 .tabela-demandas td {
     padding: 12px 15px;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #d0d7d8;
 }
 
 .tabela-demandas th {
-
-    background-color:rgb(187, 200, 202);
+    background-color: #03495D;
+    color: #ffffff;
     font-weight: bold;
+}
+
+.tabela-demandas tbody tr:hover {
+    background-color: rgb(230, 236, 237);
 }
 
 .btn-detalhes {
@@ -85,13 +110,14 @@ main {
     border-radius: 4px;
     font-size: 0.9rem;
     transition: background-color 0.3s;
-    background-color: rgb(187, 200, 202);
+    background-color: #03495D;
     color: #ffffff; 
 }
 
 .btn-detalhes:hover {
-    background-color: rgb(187, 200, 202); 
+    background-color: #022f3d; 
 }
+
 .btn-primario {
     padding: 10px 20px;
     background-color: rgb(151, 162, 163);
