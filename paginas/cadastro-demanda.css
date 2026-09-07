@@ -68,3 +68,43 @@ h1 {
 .texto-apoio {
     color: #5e6c70;
 }
+
+.formulario {
+    border: 0;
+    border-radius: 0.9rem;
+}
+
+h2 {
+    color: var(--azul-escuro);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.texto-apoio {
+    font-size: 0.9rem;
+}
+
+.obrigatorio {
+    color: #c0392b;
+}
+
+.form-label {
+    color: #314247;
+    font-weight: 600;
+}
+
+.form-control,
+.form-select {
+    border-color: #b8c5c7;
+    min-height: 2.8rem;
+}
+
+textarea.form-control {
+    min-height: auto;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 0.2rem rgba(13, 123, 135, 0.18);
+}

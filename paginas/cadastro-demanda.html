@@ -46,3 +46,62 @@
                     <p class="texto-apoio">
                         Os campos com <span class="obrigatorio">*</span> são obrigatórios.
                     </p>
+
+                                        <div class="row g-4">
+                        <div class="col-12">
+                            <label for="titulo" class="form-label">
+                                Título <span class="obrigatorio">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="titulo"
+                                name="titulo"
+                                placeholder="Ex.: Ajustar layout da tela inicial"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="tipo" class="form-label">
+                                Tipo <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select class="form-select" id="tipo" name="tipo" required>
+                                <option value="" selected disabled>Selecione o tipo</option>
+                                <option value="tarefa">Tarefa</option>
+                                <option value="defeito">Defeito</option>
+                                <option value="melhoria">Melhoria</option>
+                                <option value="documentacao">Documentação</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="projeto" class="form-label">
+                                Projeto <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select class="form-select" id="projeto" name="projeto" required>
+                                <option value="" selected disabled>Selecione o projeto</option>
+                                <option value="trak">Sistema TRAK</option>
+                                <option value="site">Site institucional</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="descricao" class="form-label">
+                                Descrição <span class="obrigatorio">*</span>
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="descricao"
+                                name="descricao"
+                                rows="5"
+                                placeholder="Descreva o que precisa ser feito, o motivo e o resultado esperado."
+                                required
+                            ></textarea>
+                        </div>
+                    </div>
+                </section>
