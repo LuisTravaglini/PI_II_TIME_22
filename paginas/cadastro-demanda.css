@@ -110,3 +110,43 @@ textarea.form-control {
     border-color: var(--azul);
     box-shadow: 0 0 0 0.2rem rgba(13, 123, 135, 0.18);
 }
+
+hr {
+    border-color: #dce3e4;
+    margin: 2.4rem 0;
+    opacity: 1;
+}
+
+.btn-primary {
+    background-color: var(--azul-escuro);
+    border-color: var(--azul-escuro);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #023846;
+    border-color: #023846;
+}
+
+.btn-light {
+    border: 1px solid #c8d0d2;
+}
+
+footer {
+    color: #4c6165;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 575.98px) {
+    main {
+        padding-top: 2rem !important;
+    }
+
+    .formulario .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

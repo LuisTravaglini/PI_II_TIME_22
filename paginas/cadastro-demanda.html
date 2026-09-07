@@ -107,3 +107,74 @@
                         </div>
                     </div>
                 </section>
+
+                                <hr>
+
+                <section>
+                    <h2>Planejamento</h2>
+
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <label for="prioridade" class="form-label">
+                                Prioridade <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select class="form-select" id="prioridade" name="prioridade" required>
+                                <option value="" selected disabled>Selecione a prioridade</option>
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="critica">Crítica</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="responsavel" class="form-label">
+                                Responsável <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select class="form-select" id="responsavel" name="responsavel" required>
+                                <option value="" selected disabled>Selecione o responsável</option>
+                                <option value="arthur">Arthur</option>
+                                <option value="gabriel">Gabriel</option>
+                                <option value="luis">Luis</option>
+                                <option value="equipe">Equipe</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="prazo" class="form-label">Prazo previsto</label>
+                            <input type="date" class="form-control" id="prazo" name="prazo">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">
+                                Status <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="aberta" selected>Aberta</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="revisao">Em revisão</option>
+                                <option value="concluida">Concluída</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-2 mt-5">
+                    <a href="dashboard.html" class="btn btn-light px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        Salvar demanda
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <footer class="text-center py-4">
+        © 2026 TRAK - Sistema de Acompanhamento de Demandas
+    </footer>
+</body>
+</html>
