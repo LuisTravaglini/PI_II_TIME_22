@@ -1,0 +1,90 @@
+                                                                            <!-- Joao Pedro Cayres Villela  -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Demandas - PI2</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <header>
+        <nav>
+            <h1>Sistema de Acompanhamento de Demandas</h1>
+        </nav>
+    </header>
+
+    <main>
+        <section class="cabecalho-pagina">
+            <h2>Demandas Cadastradas</h2>
+        </section>
+
+        <section class="controles-listagem">
+            <input type="text" placeholder="Buscar demanda por título ou descrição..." id="busca-demanda">
+            
+            <select id="filtro-status">
+                <option value="">Filtrar por Status</option>
+                <option value="aberta">Aberta</option>
+                <option value="em-andamento">Em andamento</option>
+                <option value="em-revisao">Em revisão</option>
+                <option value="concluida">Concluída</option>
+                <option value="cancelada">Cancelada</option>
+            </select>
+
+            <select id="filtro-prioridade">
+                <option value="">Filtrar por Prioridade</option>
+                <option value="critica">Crítica</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
+            <select id="ordenacao">
+                <option value="">Ordenar por...</option>
+                <option value="prioridade">Prioridade</option>
+                <option value="data-criacao">Data de criação</option>
+                <option value="prazo">Prazo de finalização</option>
+                <option value="status">Status</option>
+            </select>
+        </section>
+
+        <section class="area-dados">
+            <table class="tabela-demandas">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Projeto</th>
+                        <th>Responsável</th>
+                        <th>Data Criação</th>
+                        <th>Prazo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ajustar tela de login</td>
+                        <td>Defeito</td>
+                        <td>Alta</td>
+                        <td>Aberta</td>
+                        <td>Projeto E-commerce</td>
+                        <td>Não atribuído</td>
+                        <td>07/09/2026</td>
+                        <td>15/09/2026</td>
+                        <td>
+                            <a href="detalhes.html" class="btn-detalhes">Ver Detalhes</a>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>
