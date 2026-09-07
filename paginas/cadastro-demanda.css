@@ -13,7 +13,7 @@ body {
 }
 
 .cabecalho {
-    background: linear-gradient(90deg, var(--azul), var(--azul-escuro));
+    background-color: white;
 }
 
 .marca img {

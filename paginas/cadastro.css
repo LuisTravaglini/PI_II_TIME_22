@@ -1,0 +1,15 @@
+/*FEITO POR: GABRIEL SOUZA GONÇALVES*/
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo {
+    color: #055063;
+}
+
+.botao-cadastro {
+    background-color: #055063;
+    border: none;
+}

@@ -1,3 +1,4 @@
+/*FEITO POR: GABRIEL SOUZA GONÇALVES*/
 .Logo-cabecalho{
     width: 150px;
     height: 80px;
@@ -21,6 +22,12 @@
 .botao-login, .botao-cadastrar {
     background-color: #1f4e79;
     color: white;
+    text-decoration: none;
+    border: none;
+}
+
+.botao-login:hover, .botao-cadastrar:hover {
+    background-color: #6c738a;
 }
 
 .caixa {
