@@ -25,7 +25,7 @@ main {
 
 .cabecalho-pagina h2 {
     margin-bottom: 20px;
-    color: rgb(187, 200, 202);
+    color:#03495D;
 }
 
 
@@ -34,7 +34,7 @@ main {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
-    background-color: #ffffff;
+    background-color: rgb(187, 200, 202);
     padding: 15px;
     border-radius: 8px;
 }
@@ -56,7 +56,7 @@ main {
     background-color: rgb(187, 200, 202);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgb(0, 0, 0);
+    box-shadow: 0 2px 4px #03495D;
     overflow-x: auto;                           /* Permite rolagem lateral se a tela for pequena, pesquisei no site IONOS.com */
 }
 
@@ -74,7 +74,7 @@ main {
 
 .tabela-demandas th {
 
-    background-color: #f8f9fa; 
+    background-color:rgb(187, 200, 202);
     font-weight: bold;
 }
 
