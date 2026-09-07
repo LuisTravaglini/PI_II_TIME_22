@@ -24,7 +24,7 @@ body {
 }
 
 .cabecalho a {
-    color: #fff;
+    color: #03495d;
     font-weight: 600;
     text-decoration: none;
 }
@@ -40,13 +40,13 @@ body {
 }
 
 .usuario {
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(29, 90, 157, 0.7);
     border-radius: 0.4rem;
     padding: 0.4rem 0.9rem;
 }
 
 .usuario:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(151, 121, 121, 0.15);
 }
 
 h1 {
