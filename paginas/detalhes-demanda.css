@@ -328,3 +328,16 @@ footer {
 
 }
 
+@media (max-width: 575.98px) {
+    main {
+        padding-top: 2rem !important;
+    }
+
+    .painel .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .painel .d-flex.gap-2 .btn {
+        width: 100%;
+    }
+}
