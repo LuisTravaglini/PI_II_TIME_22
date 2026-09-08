@@ -6,10 +6,11 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: rgb(255, 255, 255);
-    color: #000000; 
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #bbc8ca;
+    color: #263238;
 }
+
 
 header {
     background-color: #03495D;
