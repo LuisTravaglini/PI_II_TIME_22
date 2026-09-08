@@ -36,7 +36,7 @@ body {
 .cabecalho nav a:hover,
 .cabecalho nav .ativo {
     opacity: 1;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #03495d;
 }
 
 .usuario {
@@ -46,7 +46,7 @@ body {
 }
 
 .usuario:hover {
-    background-color: rgba(151, 121, 121, 0.15);
+    background-color: #e7f1f3;
 }
 
 h1 {
