@@ -28,6 +28,7 @@ body{
     padding: 20px;
     background-color: rgb(187, 200, 202);;
     border-radius: 21px;
+    max-width: 1200px;
 }
 
 .cards-resumo {
@@ -135,4 +136,16 @@ body{
 .badge-prazo {
     background-color: #eeeeee;
     color: #555555;
+}
+
+
+@media (max-width: 768px) {
+    .graficos,
+    .destaques {
+        flex-direction: column;
+    }
+
+    .secao {
+        padding: 15px;
+    }
 }
