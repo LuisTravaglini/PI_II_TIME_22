@@ -8,7 +8,6 @@
     
     <link rel="stylesheet" href="listagem.css">
     <script src="listagem.js" defer></script>
-    <script src="listagem.js" defer></script>
     
 </head>
 <body>
@@ -24,8 +23,12 @@
             <h2>Demandas Cadastradas</h2>
         </section>
 
-        <section class="controles-listagem">
+            <section class="controles-listagem">
+            <div class="campo-busca">
             <input type="text" placeholder="Buscar demanda por título ou descrição..." id="busca-demanda">
+            <button type="button" id="btn-buscar" class="btn-primario">Buscar</button>
+             </div>
+...
             
             <select id="filtro-status">
                 <option value="">Filtrar por Status</option>
