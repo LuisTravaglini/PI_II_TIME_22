@@ -68,3 +68,68 @@ function validarSelecao(campo, elementoErro, valoresPermitidos, nomeCampo) {
 
     return true;
 }
+
+formulario.addEventListener("submit", function (event) {
+    event.preventDefault();
+    limparErros();
+    resultadoValidacao.classList.add("d-none");
+
+    const titulo = campoTitulo.value.trim();
+    const descricao = campoDescricao.value.trim();
+    const prazo = campoPrazo.value;
+    let formularioValido = true;
+
+    if (titulo === "") {
+        mostrarErro(campoTitulo, erroTitulo, "O título é obrigatório.");
+        formularioValido = false;
+    } else if (titulo.length < 5) {
+        mostrarErro(campoTitulo, erroTitulo, "O título deve ter pelo menos 5 caracteres.");
+        formularioValido = false;
+    }
+
+    if (descricao === "") {
+        mostrarErro(campoDescricao, erroDescricao, "A descrição é obrigatória.");
+        formularioValido = false;
+    } else if (descricao.length < 15) {
+        mostrarErro(campoDescricao, erroDescricao, "A descrição deve ter pelo menos 15 caracteres.");
+        formularioValido = false;
+    }
+
+    if (!validarSelecao(campoTipo, erroTipo, ["tarefa", "defeito", "melhoria", "documentacao"], "tipo")) {
+        formularioValido = false;
+    }
+
+    if (!validarSelecao(campoProjeto, erroProjeto, ["trak", "site"], "projeto")) {
+        formularioValido = false;
+    }
+
+    if (!validarSelecao(campoPrioridade, erroPrioridade, ["baixa", "media", "alta", "critica"], "prioridade")) {
+        formularioValido = false;
+    }
+
+    if (!validarSelecao(campoResponsavel, erroResponsavel, ["arthur", "gabriel", "luis", "joao", "equipe"], "responsável")) {
+        formularioValido = false;
+    }
+
+    if (!validarSelecao(campoStatus, erroStatus, ["aberta", "andamento", "revisao", "concluida", "cancelada"], "status")) {
+        formularioValido = false;
+    }
+
+    if (prazo !== "") {
+        const dataPrazo = new Date(`${prazo}T00:00:00`);
+        const hoje = new Date();
+
+        hoje.setHours(0, 0, 0, 0);
+
+        if (Number.isNaN(dataPrazo.getTime()) || dataPrazo < hoje) {
+            mostrarErro(campoPrazo, erroPrazo, "O prazo não pode ser uma data anterior a hoje.");
+            formularioValido = false;
+        }
+    }
+
+    if (!formularioValido) {
+        return;
+    }
+
+    resultadoValidacao.classList.remove("d-none");
+});
