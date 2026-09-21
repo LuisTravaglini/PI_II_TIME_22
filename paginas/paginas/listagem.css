@@ -1,4 +1,4 @@
-/*                                            <!-- Joao Pedro Cayres Villela  -->                                 */
+/*     <!-- Joao Pedro Cayres Villela  -->                                 */
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +7,13 @@
 
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #bbc8ca;
+    background-color: #f5f5f5;
     color: #263238;
 }
 
 
 header {
-    background-color: #03495D;
+    background-color: #1f4e79;
     color: #ffffff;
     padding: 15px 30px;
 }
@@ -26,7 +26,7 @@ main {
 
 .cabecalho-pagina h2 {
     margin-bottom: 20px;
-    color:#03495D;
+    color:#1f4e79;
 }
 
 .sr-only {
@@ -65,7 +65,7 @@ main {
 .controles-listagem select:focus-visible,
 .btn-primario:focus-visible,
 .btn-detalhes:focus-visible {
-    outline: 3px solid #03495D;
+    outline: 3px solid #1f4e79;
     outline-offset: 2px;
 }
 
@@ -95,7 +95,7 @@ main {
 }
 
 .tabela-demandas th {
-    background-color: #03495D;
+    background-color: #1f4e79;
     color: #ffffff;
     font-weight: bold;
 }
@@ -111,25 +111,26 @@ main {
     border-radius: 4px;
     font-size: 0.9rem;
     transition: background-color 0.3s;
-    background-color: #03495D;
+    background-color: #1f4e79;
     color: #ffffff; 
 }
 
 .btn-detalhes:hover {
-    background-color: #022f3d; 
+    background-color: #1f4e79; 
 }
 
 .btn-primario {
-    padding: 10px 20px;
-    background-color: rgb(151, 162, 163);
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
+padding: 10px 20px;
+background-color: #1f4e79;
+color: #ffffff;
+border: none;
+border-radius: 0.5rem;
+font-size: 1rem;
+font-weight: 500;
+cursor: pointer;
+transition: background-color 0.15s ease-in-out;
 }
+
 .btn-primario:hover {
-    background-color:rgb(136, 146, 147);
+    background-color:#17395a;
 }

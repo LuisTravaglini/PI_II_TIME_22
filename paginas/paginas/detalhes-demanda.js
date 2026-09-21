@@ -1,4 +1,4 @@
-// Autor: João PEdro Cayres Villela - Autoria exclusiva deste arquivo
+// Autor: João Pedro Cayres Villela - Autoria exclusiva deste arquivo
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Seleção dos elementos do HTML
