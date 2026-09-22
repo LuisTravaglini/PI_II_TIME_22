@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Seleção dos elementos do HTML
-    const formComentario = document.querySelector('form') || document.querySelector('.area-comentarios');
+    const botaoAdicionar = document.querySelector('.novo-comentario .btn-primary');
     const campoComentario = document.getElementById('comentario') || document.querySelector('textarea');
     
     // Procura ou cria a div de feedback de erro (.invalid-feedback)
@@ -59,20 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Ouvinte de evento ao submeter/enviar o comentário
-    if (formComentario) {
-        formComentario.addEventListener('submit', (event) => {
-            // Impede o envio do formulário se o comentário for inválido
-            if (!validarComentario()) {
-                event.preventDefault();
-            } else {
-                // Lógica de sucesso (ex: adicionar o comentário na tela ou enviar)
-                event.preventDefault(); // Evita recarregar a página nos testes visuais
-                alert('Comentario enviado com sucesso!');
-                campoComentario.value = '';
-                limparErro();
-            }
-        });
-    }
+    if (botaoAdicionar) {
+    botaoAdicionar.addEventListener('click', () => {
+        if (!validarComentario()) {
+            return;
+        }
+
+        alert('Comentário enviado com sucesso!');
+        campoComentario.value = '';
+        limparErro();
+    });
+}
+
 });
 
 

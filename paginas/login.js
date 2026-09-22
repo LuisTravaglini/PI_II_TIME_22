@@ -60,7 +60,7 @@ formLogin.addEventListener("submit", function(event) {
 
     if(formValido){
         mensagemLogin.innerHTML = `
-            <div class="alert alert-success mt-3>
+            <div class="alert alert-success mt-3">
                 Login realizado com sucesso!
             </div>
             `;
