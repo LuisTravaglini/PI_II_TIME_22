@@ -62,7 +62,6 @@ body {
 .container input[type="email"],
 .container input[type="password"] {
   width: 100%;
-  padding: 0.85rem 0.75rem;
   border: 1px solid #ced4da;
   font-size: 1rem;
 }
