@@ -1,0 +1,24 @@
+{
+  "name": "pi_ii_time_22",
+  "version": "1.0.0",
+  "description": "Projeto acadêmico desenvolvido no componente **Projeto Integrador II** do curso de **Engenharia de Software da PUC-Campinas**, durante o **2º semestre de 2026**.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisTravaglini/PI_II_TIME_22.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/LuisTravaglini/PI_II_TIME_22/issues"
+  },
+  "homepage": "https://github.com/LuisTravaglini/PI_II_TIME_22#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
