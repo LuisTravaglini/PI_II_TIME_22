@@ -1,7 +1,7 @@
 <!--FEITO POR: GABRIEL SOUZA GONÇALVES-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,7 +10,9 @@
     <link href="cadastro.css" rel="stylesheet">
 
     <title>Document</title>
-</head>
+    
+    <script src="cadastro.js" defer></script>
+</head>  
 <body>
     <section class="vh-100" style="background-color: #eee;">
   <div class="container h-100">
@@ -23,49 +25,58 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 titulo">CADASTRO</p>
 
-                <form class="mx-1 mx-md-4">
+                <form id="formCadastro"class="mx-1 mx-md-4" novalidate>
 
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input type="text" id="form3Example1c" class="form-control" />
-                      <label class="form-label" for="form3Example1c">Seu nome</label>
+                      <input type="text" id="nome" class="form-control" 
+                        required minlength="5" placeholder="nome" autocomplete="name"/>
+                      <label class="form-label" for="nome">Seu nome</label>
+                      <div id="erroNome" class="invalid-feedback"></div>
                     </div>
                   </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input type="email" id="form3Example3c" class="form-control" />
-                      <label class="form-label" for="form3Example3c">Seu email</label>
+                      <input type="email" id="email" class="form-control" 
+                        required placeholder="nome@gmail.com" autocomplete="email"/>
+                      <label class="form-label" for="email">Seu email</label>
+                      <div id="erroEmail" class="invalid-feedback"></div>
                     </div>
                   </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4c" class="form-control" />
-                      <label class="form-label" for="form3Example4c">Senha</label>
+                      <input type="password" id="senha" class="form-control" 
+                        required minlength="8" placeholder="********"autocomplete="new-password"/>
+                      <label class="form-label" for="senha">Senha</label>
+                      <div class="form-text">Mínimo 8 caracteres. Números, letra maiúscula, minúscula e caractere especial</div>
+                      <div id="erroSenha" class="invalid-feedback"></div>
                     </div>
                   </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                    
                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4cd" class="form-control" />
-                      <label class="form-label" for="form3Example4cd">Repita sua senha</label>
+                      <input type="password" id="repetirSenha" class="form-control" 
+                        required placeholder="********" autocomplete="new-password"/>
+                      <label class="form-label" for="repetirSenha">Repita sua senha</label>
+                      <div id="erroRepetirSenha" class="invalid-feedback"></div>
                     </div>
                   </div>
 
                   <div class="form-check d-flex justify-content-center mb-5">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                    <label class="form-check-label" for="form2Example3">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="termos" />
+                    <label class="form-check-label" for="termos">
                       Eu concordo com todos <a href="#!">termos de serviço</a>
                     </label>
+                    <div id="erroTermos" class="invalid-feedback"></div>
                   </div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg botao-cadastro">Cadastrar-se</button>
+                    <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg botao-cadastro">Cadastrar-se</button>
                   </div>
 
                 </form>
