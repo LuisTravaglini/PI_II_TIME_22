@@ -21,13 +21,11 @@ router.get("/demandas/:id", (req, res) => {
 router.get("/demandas/:id/comentarios", (req, res) => {
     const idDemanda = Number(req.params.id);
 
-    // Verifica se a demanda existe
     const demandaExiste = demandas.some(d => d.id === idDemanda);
     if (!demandaExiste) {
         return res.status(404).json({ mensagem: "Demanda não encontrada" });
     }
 
-    // Filtra os comentários pertencentes a essa demanda
     const listaComentarios = comentarios.filter(c => c.demandaId === idDemanda);
     return res.status(200).json(listaComentarios);
 });
