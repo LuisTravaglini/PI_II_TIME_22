@@ -1,9 +1,9 @@
 import {Router} from "express";
-import {usuarios} from "dados.js"
+import {usuarios} from "./dados.js"
 
 const router = Router();
 
-const semSenha = ({email, senha }) => resto;
+const semSenha = ({senha, ...resto }) => resto;
 
 router.post("/login", (req, res) => {
     const {email, senha} = req.body || {};

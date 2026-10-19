@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/LuisTravaglini/PI_II_TIME_22#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.3.0"
   }
 }

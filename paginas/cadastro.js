@@ -83,7 +83,7 @@ formCadastro.addEventListener("submit", function(event) {
     const possuiNumero = /[0-9]/.test(senha);
     const possuiEspecial = /#|@|_|!/.test(senha);
     if (senha.length < 8) {
-        mostrarErro(campoSenha, erroSenha, "Senha precisa de no mínimo 8 números");
+        mostrarErro(campoSenha, erroSenha, "Senha precisa de no mínimo 8 caracteres");
         formValido = false;
     } else if (!possuiEspecial || !possuiLetraMaiuscula || !possuiLetraMinuscula || !possuiNumero) {
         mostrarErro(campoSenha, erroSenha, "Senha não segue as exigências");
@@ -104,8 +104,21 @@ formCadastro.addEventListener("submit", function(event) {
     }
 
     if (formValido) {
-    alert("Cadastro realizado com sucesso!");
-    formCadastro.reset();
+        fetch("http://localhost:3000/usuarios", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nome, email, senha, repetirSenha })
+        })
+        .then(async resposta => {
+            const dados = await resposta.json();
+            if (resposta.ok) {
+                alert("Cadastro realizado com sucesso!");
+                formCadastro.reset();
+            } else {
+                alert(dados.erro);
+            }
+        })
+        .catch(() => alert("Não foi possível conectar ao servidor."));
     }
 
 })
