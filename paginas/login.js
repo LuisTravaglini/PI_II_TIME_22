@@ -6,7 +6,7 @@ const campoLembrar = document.querySelector("#lembrar")
 
 const erroEmail = document.querySelector("#erroEmail");
 const erroSenha = document.querySelector("#erroSenha");
-const erroLembrar = document.querySelector("#lembrar");
+const erroLembrar = document.querySelector("#erroLembrar");
 
 const mensagemLogin = document.querySelector("#mensagemLogin");
 
@@ -38,7 +38,7 @@ formLogin.addEventListener("submit", function(event) {
     limparErros();
 
     const email = campoEmail.value.trim();
-    const senha = campoSenha.value.trim().toLowerCase();
+    const senha = campoSenha.value.trim();
 
     let formValido = true;
 
@@ -60,7 +60,7 @@ formLogin.addEventListener("submit", function(event) {
 
     if(formValido){
         mensagemLogin.innerHTML = `
-            <div class="alert alert-success mt-3>
+            <div class="alert alert-success mt-3">
                 Login realizado com sucesso!
             </div>
             `;
