@@ -1,4 +1,9 @@
-<!--FEITO POR LUIS FELIPPE TRAVAGLINI-->
+<!--
+    FEITO POR: Luis Felippe Travaglini
+    Tela: Cadastro e edição de demanda.
+    Objetivo: permitir o preenchimento das informações de uma demanda,
+    como título, descrição, tipo, prioridade, responsável, prazo e status.
+-->
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -41,7 +46,7 @@
             <a href="dashboard.html" class="btn btn-outline-secondary">Cancelar</a>
         </div>
 
-        <form class="card formulario shadow-sm" action="#" method="post">
+        <form id="formDemanda" class="card formulario shadow-sm" action="#" method="post" novalidate>
             <div class="card-body p-4 p-md-5">
                 <section>
                     <h2>Informações da demanda</h2>
@@ -63,6 +68,7 @@
                                 placeholder="Ex.: Ajustar layout da tela inicial"
                                 required
                             >
+                            <div id="erroTitulo" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-md-6">
@@ -77,6 +83,7 @@
                                 <option value="melhoria">Melhoria</option>
                                 <option value="documentacao">Documentação</option>
                             </select>
+                            <div id="erroTipo" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-md-6">
@@ -89,6 +96,7 @@
                                 <option value="trak">Sistema TRAK</option>
                                 <option value="site">Site institucional</option>
                             </select>
+                            <div id="erroProjeto" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-12">
@@ -104,6 +112,7 @@
                                 placeholder="Descreva o que precisa ser feito, o motivo e o resultado esperado."
                                 required
                             ></textarea>
+                            <div id="erroDescricao" class="invalid-feedback"></div>
                         </div>
                     </div>
                 </section>
@@ -126,6 +135,7 @@
                                 <option value="alta">Alta</option>
                                 <option value="critica">Crítica</option>
                             </select>
+                            <div id="erroPrioridade" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-md-4">
@@ -139,14 +149,15 @@
                                 <option value="gabriel">Gabriel</option>
                                 <option value="luis">Luis</option>
                                 <option value="joao">Joao</option>
-                                <option value="kaiky">Kaiky</option>
                                 <option value="equipe">Equipe</option>
                             </select>
+                            <div id="erroResponsavel" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-md-4">
                             <label for="prazo" class="form-label">Prazo previsto</label>
                             <input type="date" class="form-control" id="prazo" name="prazo">
+                            <div id="erroPrazo" class="invalid-feedback"></div>
                         </div>
 
                         <div class="col-md-6">
@@ -161,6 +172,7 @@
                                 <option value="concluida">Concluída</option>
                                 <option value="cancelada">Cancelada</option>
                             </select>
+                            <div id="erroStatus" class="invalid-feedback"></div>
                         </div>
                     </div>
                 </section>
@@ -173,10 +185,16 @@
                 </div>
             </div>
         </form>
+
+        <section id="resultadoValidacao" class="alert alert-success mt-4 d-none" role="status">
+            Demanda validada com sucesso. Nenhuma informação foi enviada ao servidor.
+        </section>
     </main>
 
     <footer class="text-center py-4">
-        © 2026 TRAK - Sistema de Acompanhamento de Demandas
+        2026 TRAK - Sistema de Acompanhamento de Demandas
     </footer>
+
+    <script src="cadastro-demanda.js" defer></script>
 </body>
 </html>

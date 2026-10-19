@@ -1,4 +1,8 @@
-/*FEITO POR: Luis Felippe Travaglini*/
+/*
+    FEITO POR: Luis Felippe Travaglini
+    Estilos da tela de cadastro e edição de demanda.
+    Define cores, espaçamentos, formulário, botões e responsividade.
+*/
 
 :root {
     --azul-escuro: #03495d;
