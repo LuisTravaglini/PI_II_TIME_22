@@ -1,3 +1,8 @@
+// Autor da parte de demandas e projetos: Luis Travaglini
+// Reunião 4 — API Backend do sistema TRAK.
+// Este arquivo contém o cadastro de demandas e a listagem de projetos de teste.
+// Também preserva a rota de cadastro de usuários já criada pela equipe.
+
 import { Router } from "express";
 import { demandas, projetos, usuarios } from "./dados.js";
 
