@@ -5,6 +5,7 @@ import loginRota from "./loginROTA.js";
 import dashboardRota from "./dashboardROTA.js";   
 import listagemRota from "./listagemROTA.js";     
 import cadastroRota from "./cadastroROTA.js";     
+import demandaRota from "./demandaROTA.js";
 import detalhesRota from "./detalhesROTA.js";  
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(loginRota);
 app.use(dashboardRota);
 app.use(listagemRota);
 app.use(cadastroRota);
+app.use(demandaRota);
 app.use(detalhesRota);
 
 app.get("/", (req, res) => {
@@ -26,4 +28,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
-
