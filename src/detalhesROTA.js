@@ -1,7 +1,7 @@
 // Autor:               João Pedro Cayres Villela
 
 import { Router } from "express";
-import { demandas, comentarios } from "./dados.js"; 
+import { demandas, comentarios, usuarios } from "./dados.js"; 
 
 const router = Router();
 
@@ -40,14 +40,18 @@ router.post("/demandas/:id/comentarios", (req, res) => {
         return res.status(404).json({ mensagem: "Demanda não encontrada" });
     }
 
-    if (!texto || texto.trim() === "") {
+    if (typeof texto !== "string" || texto.trim() === "") {
         return res.status(400).json({ mensagem: "O comentário não pode estar vazio." });
     }
-
+    
     if (!usuarioId) {
         return res.status(400).json({ mensagem: "O ID do usuário é obrigatório." });
     }
 
+    const usuarioExiste = usuarios.some(u => u.id === Number(usuarioId));
+    if (!usuarioExiste) {
+        return res.status(400).json({ mensagem: "Usuário não encontrado." });
+    }
     // Cria o objeto do novo comentário (com dataHora registrada automaticamente)
     const novoComentario = {
         id: comentarios.length + 1,
