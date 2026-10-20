@@ -1,3 +1,5 @@
+//Feito por Gabriel Souza Gonçalves
+
 import {Router} from "express";
 import {usuarios} from "./dados.js"
 
