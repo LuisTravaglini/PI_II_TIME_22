@@ -1,12 +1,13 @@
-// Autor: Arthur
-// Rota GET /dashboard: devolve os números e listas que a tela de dashboard mostra.
+// Autor: Arthur Alves Raymundi - 26000661
+// Rota GET /dashboard: devolve os números e listas que a tela de dashboard mostra,
+// calculados a partir das demandas gravadas no banco Oracle.
 //
 // Critérios adotados pela equipe:
 // - "Em aberto": demanda que ainda não terminou (status Aberta, Em andamento ou Em revisão).
 // - "Próxima do prazo": demanda em aberto, com prazo preenchido, que vence de hoje até daqui a 7 dias.
 
 import { Router } from "express";
-import { demandas } from "./dados.js";
+import { buscarDemandasDashboard } from "./listagemBanco.js";
 
 const router = Router();
 
@@ -29,8 +30,18 @@ function diasAtePrazo(prazo) {
     return Math.round((dataPrazo - hoje) / umDiaEmMilissegundos);
 }
 
-router.get("/dashboard", (req, res) => {
-    // Começa todos os contadores em zero.
+router.get("/dashboard", async (req, res) => {
+    let demandas;
+
+    // 1. Busca as demandas no banco. Se o banco não responder, avisa a tela com 503.
+    try {
+        demandas = await buscarDemandasDashboard();
+    } catch (erro) {
+        console.error("Erro ao consultar o dashboard:", erro.message);
+        return res.status(503).json({ erro: "Não foi possível consultar os indicadores no banco." });
+    }
+
+    // 2. Começa todos os contadores em zero.
     const porStatus = { aberta: 0, andamento: 0, revisao: 0, concluida: 0, cancelada: 0 };
     const porPrioridade = { baixa: 0, media: 0, alta: 0, critica: 0 };
     const porTipo = { tarefa: 0, defeito: 0, melhoria: 0, documentacao: 0 };
@@ -42,14 +53,15 @@ router.get("/dashboard", (req, res) => {
         porTipo[demanda.tipo]++;
     }
 
-    // Críticas em aberto: em aberto E prioridade crítica.
+    // 3. Críticas em aberto: em aberto E prioridade crítica.
     const criticasEmAberto = demandas.filter((demanda) => {
         return estaEmAberto(demanda) && demanda.prioridade === "critica";
     });
 
-    // Próximas do prazo: em aberto, com prazo, vencendo entre hoje e daqui a 7 dias.
+    // 4. Próximas do prazo: em aberto, com prazo, vencendo entre hoje e daqui a 7 dias.
+    // No banco, "sem prazo" vem como null.
     const proximasDoPrazo = demandas.filter((demanda) => {
-        if (!estaEmAberto(demanda) || demanda.prazo === "") {
+        if (!estaEmAberto(demanda) || !demanda.prazo) {
             return false;
         }
 

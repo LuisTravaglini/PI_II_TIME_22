@@ -153,3 +153,13 @@ nav {
     align-items: flex-start;
     gap: 8px;
 }
+/* Reunião 5 (Arthur): mensagem de erro devolvida pela API */
+.mensagem-erro {
+    color: #c0392b;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.mensagem-erro:empty {
+    display: none;
+}
