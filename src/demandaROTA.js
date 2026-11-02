@@ -3,7 +3,7 @@
 // Este arquivo contém as rotas de listagem de projetos e cadastro de demandas.
 
 import { Router } from "express";
-import { demandas, projetos, usuarios } from "./dados.js";
+import { buscarProjetos, buscarUsuariosCadastro, buscarDemandaCadastro, gravarDemanda } from "./demandaBanco.js";
 
 const router = Router();
 
@@ -32,12 +32,42 @@ function dataValida(data) {
 }
 
 // Lista os projetos de teste disponíveis para cadastrar uma demanda.
-router.get("/projetos", (req, res) => {
-    return res.status(200).json(projetos);
+router.get("/projetos", async (req, res) => {
+    try { return res.status(200).json(await buscarProjetos()); }
+    catch (erro) { console.error("Erro ao consultar projetos:", erro.code); return res.status(503).json({ erro: "Não foi possível consultar os projetos no banco." }); }
 });
 
-// Cadastra uma demanda e valida os dados recebidos no corpo (body) da requisição.
-router.post("/demandas", (req, res) => {
+// Estas consultas atendem à tela de cadastro enquanto as demais telas são integradas.
+router.get("/cadastro/usuarios", async (req, res) => {
+    try { return res.json(await buscarUsuariosCadastro()); }
+    catch (erro) { console.error("Erro ao consultar usuários:", erro.code); return res.status(503).json({ erro: "Não foi possível consultar os responsáveis no banco." }); }
+});
+
+router.get("/cadastro/demandas/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id < 1) return res.status(400).json({ erro: "ID de demanda inválido." });
+    try {
+        const demanda = await buscarDemandaCadastro(id);
+        return demanda ? res.json(demanda) : res.status(404).json({ erro: "Demanda não encontrada." });
+    } catch (erro) { console.error("Erro ao consultar demanda:", erro.code); return res.status(503).json({ erro: "Não foi possível consultar a demanda no banco." }); }
+});
+
+// A BrasilAPI informa os feriados nacionais do ano do prazo.
+async function verificarFeriado(prazo) {
+    const resposta = await fetch(`https://brasilapi.com.br/api/feriados/v1/${prazo.slice(0, 4)}`, {
+        signal: AbortSignal.timeout(8000)
+    });
+    if (!resposta.ok) throw new Error("Serviço de feriados indisponível.");
+    const feriados = await resposta.json();
+    return feriados.find((feriado) => feriado.date === prazo);
+}
+
+// Cadastro e edição compartilham as mesmas validações no servidor.
+async function salvarDemanda(req, res) {
+    const id = req.method === "PUT" ? Number(req.params.id) : null;
+    if (id !== null && (!Number.isInteger(id) || id < 1)) return res.status(400).json({ erro: "ID de demanda inválido." });
+    try {
+    if (id !== null && !(await buscarDemandaCadastro(id))) return res.status(404).json({ erro: "Demanda não encontrada." });
     const { titulo, descricao, tipo, prioridade, projetoId, responsavelId, prazo } = req.body || {};
 
     if (!titulo || !String(titulo).trim()) {
@@ -64,7 +94,7 @@ router.post("/demandas", (req, res) => {
 
     const projetoIdNumero = Number(projetoId);
     const projetoExiste = Number.isInteger(projetoIdNumero)
-        && projetos.some((projeto) => projeto.id === projetoIdNumero);
+        && (await buscarProjetos()).some((projeto) => projeto.id === projetoIdNumero);
 
     if (!projetoExiste) {
         return res.status(400).json({ erro: "O projeto informado não existe." });
@@ -74,7 +104,7 @@ router.post("/demandas", (req, res) => {
     if (responsavelId !== undefined && responsavelId !== null && responsavelId !== "") {
         responsavelIdNumero = Number(responsavelId);
         const responsavelExiste = Number.isInteger(responsavelIdNumero)
-            && usuarios.some((usuario) => usuario.id === responsavelIdNumero);
+            && (await buscarUsuariosCadastro()).some((usuario) => usuario.id === responsavelIdNumero);
 
         if (!responsavelExiste) {
             return res.status(400).json({ erro: "O responsável informado não existe." });
@@ -87,24 +117,36 @@ router.post("/demandas", (req, res) => {
         });
     }
 
-    const agora = new Date().toISOString();
-    const novaDemanda = {
-        id: demandas.length ? Math.max(...demandas.map((demanda) => demanda.id)) + 1 : 1,
+    if (prazo) {
+        try {
+            const feriado = await verificarFeriado(prazo);
+            if (feriado) {
+                return res.status(400).json({ erro: `O prazo não pode cair em feriado nacional: ${feriado.name}.` });
+            }
+        } catch (erro) {
+            return res.status(503).json({ erro: "Não foi possível verificar os feriados. Tente novamente." });
+        }
+    }
+
+    const dados = {
         titulo: String(titulo).trim(),
         descricao: String(descricao).trim(),
         tipo: tipoNormalizado,
         prioridade: prioridadeNormalizada,
-        status: "aberta",
         projetoId: projetoIdNumero,
         responsavelId: responsavelIdNumero,
-        dataCriacao: agora,
-        dataAtualizacao: agora,
-        prazo: prazo || ""
+        prazo: prazo || null
     };
+    const demanda = await gravarDemanda(dados, id);
+    if (!demanda) return res.status(404).json({ erro: "Demanda não encontrada." });
+    return res.status(id === null ? 201 : 200).json(demanda);
+    } catch (erro) {
+        console.error("Erro ao salvar demanda:", erro.code);
+        return res.status(503).json({ erro: "Não foi possível acessar o banco de dados." });
+    }
+}
 
-    demandas.push(novaDemanda);
-
-    return res.status(201).json(novaDemanda);
-});
+router.post("/demandas", salvarDemanda);
+router.put("/demandas/:id", salvarDemanda);
 
 export default router;

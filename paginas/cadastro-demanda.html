@@ -93,8 +93,6 @@
 
                             <select class="form-select" id="projeto" name="projeto" required>
                                 <option value="" selected disabled>Selecione o projeto</option>
-                                <option value="trak">Sistema TRAK</option>
-                                <option value="site">Site institucional</option>
                             </select>
                             <div id="erroProjeto" class="invalid-feedback"></div>
                         </div>
@@ -140,16 +138,11 @@
 
                         <div class="col-md-4">
                             <label for="responsavel" class="form-label">
-                                Responsável <span class="obrigatorio">*</span>
+                                Responsável
                             </label>
 
-                            <select class="form-select" id="responsavel" name="responsavel" required>
-                                <option value="" selected disabled>Selecione o responsável</option>
-                                <option value="arthur">Arthur</option>
-                                <option value="gabriel">Gabriel</option>
-                                <option value="luis">Luis</option>
-                                <option value="joao">Joao</option>
-                                <option value="equipe">Equipe</option>
+                            <select class="form-select" id="responsavel" name="responsavel">
+                                <option value="" selected>Sem responsável</option>
                             </select>
                             <div id="erroResponsavel" class="invalid-feedback"></div>
                         </div>
@@ -162,10 +155,10 @@
 
                         <div class="col-md-6">
                             <label for="status" class="form-label">
-                                Status <span class="obrigatorio">*</span>
+                                Status
                             </label>
 
-                            <select class="form-select" id="status" name="status" required>
+                            <select class="form-select" id="status" name="status" disabled>
                                 <option value="aberta" selected>Aberta</option>
                                 <option value="andamento">Em andamento</option>
                                 <option value="revisao">Em revisão</option>
@@ -187,7 +180,7 @@
         </form>
 
         <section id="resultadoValidacao" class="alert alert-success mt-4 d-none" role="status">
-            Demanda validada com sucesso. Nenhuma informação foi enviada ao servidor.
+            Resultado do cadastro.
         </section>
     </main>
 

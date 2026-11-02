@@ -1,6 +1,7 @@
 // Autor: Arthur - 26000661
 
 import express from "express";
+import { existsSync } from "node:fs";
 import loginRota from "./loginROTA.js";           
 import dashboardRota from "./dashboardROTA.js";   
 import listagemRota from "./listagemROTA.js";     
@@ -10,6 +11,8 @@ import detalhesRota from "./detalhesROTA.js";
 
 const app = express();
 const PORT = 3000;
+
+if (existsSync(".env")) process.loadEnvFile(".env");
 
 app.use(express.json());
 app.use(express.static("paginas"));

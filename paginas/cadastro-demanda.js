@@ -69,7 +69,7 @@ function validarSelecao(campo, elementoErro, valoresPermitidos, nomeCampo) {
     return true;
 }
 
-formulario.addEventListener("submit", function (event) {
+formulario.addEventListener("submit", async function (event) {
     event.preventDefault();
     limparErros();
     resultadoValidacao.classList.add("d-none");
@@ -99,19 +99,12 @@ formulario.addEventListener("submit", function (event) {
         formularioValido = false;
     }
 
-    if (!validarSelecao(campoProjeto, erroProjeto, ["trak", "site"], "projeto")) {
+    if (!campoProjeto.value || !Array.from(campoProjeto.options).some(opcao => opcao.value === campoProjeto.value)) {
+        mostrarErro(campoProjeto, erroProjeto, "Selecione um projeto válido.");
         formularioValido = false;
     }
 
     if (!validarSelecao(campoPrioridade, erroPrioridade, ["baixa", "media", "alta", "critica"], "prioridade")) {
-        formularioValido = false;
-    }
-
-    if (!validarSelecao(campoResponsavel, erroResponsavel, ["arthur", "gabriel", "luis", "joao", "equipe"], "responsável")) {
-        formularioValido = false;
-    }
-
-    if (!validarSelecao(campoStatus, erroStatus, ["aberta", "andamento", "revisao", "concluida", "cancelada"], "status")) {
         formularioValido = false;
     }
 
@@ -131,5 +124,78 @@ formulario.addEventListener("submit", function (event) {
         return;
     }
 
-    resultadoValidacao.classList.remove("d-none");
+    const dados = {
+        titulo, descricao, tipo: campoTipo.value, prioridade: campoPrioridade.value,
+        projetoId: Number(campoProjeto.value),
+        responsavelId: campoResponsavel.value ? Number(campoResponsavel.value) : null,
+        prazo
+    };
+    const botao = formulario.querySelector('button[type="submit"]');
+    botao.disabled = true;
+    try {
+        await requisitar(idDemanda ? `/demandas/${encodeURIComponent(idDemanda)}` : "/demandas", {
+            method: idDemanda ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
+        });
+        mostrarResultado(idDemanda ? "Demanda atualizada com sucesso." : "Demanda cadastrada com sucesso.");
+        if (!idDemanda) formulario.reset();
+    } catch (erro) {
+        mostrarResultado(`Não foi possível salvar: ${erro.message}`, true);
+    } finally {
+        botao.disabled = false;
+    }
 });
+
+// O parâmetro ?id= identifica a demanda quando a tela é aberta para edição.
+const idDemanda = new URLSearchParams(window.location.search).get("id");
+
+function mostrarResultado(mensagem, erro = false) {
+    resultadoValidacao.textContent = mensagem;
+    resultadoValidacao.classList.remove("d-none", "alert-success", "alert-danger");
+    resultadoValidacao.classList.add(erro ? "alert-danger" : "alert-success");
+}
+
+async function requisitar(url, opcoes) {
+    const resposta = await fetch(url, opcoes);
+    const dados = await resposta.json();
+    if (!resposta.ok) throw new Error(dados.erro || dados.mensagem || "Erro na requisição.");
+    return dados;
+}
+
+function adicionarOpcoes(campo, itens) {
+    itens.forEach(function (item) {
+        const opcao = document.createElement("option");
+        opcao.value = item.id;
+        opcao.textContent = item.nome;
+        campo.appendChild(opcao);
+    });
+}
+
+async function carregarFormulario() {
+    const botao = formulario.querySelector('button[type="submit"]');
+    botao.disabled = true;
+    try {
+        adicionarOpcoes(campoProjeto, await requisitar("/projetos"));
+        adicionarOpcoes(campoResponsavel, await requisitar("/cadastro/usuarios"));
+        if (idDemanda) {
+            const demanda = await requisitar(`/cadastro/demandas/${encodeURIComponent(idDemanda)}`);
+            document.querySelector("h1").textContent = "Edição de demanda";
+            document.querySelector(".caminho span").textContent = "Editar demanda";
+            document.querySelector(".subtitulo").textContent = "Atualize as informações da demanda.";
+            campoTitulo.value = demanda.titulo;
+            campoDescricao.value = demanda.descricao;
+            campoTipo.value = demanda.tipo;
+            campoProjeto.value = demanda.projetoId;
+            campoPrioridade.value = demanda.prioridade;
+            campoResponsavel.value = demanda.responsavelId || "";
+            campoPrazo.value = demanda.prazo ? demanda.prazo.slice(0, 10) : "";
+            campoStatus.value = demanda.status;
+        }
+        botao.disabled = false;
+    } catch (erro) {
+        mostrarResultado(`Não foi possível carregar o formulário: ${erro.message}`, true);
+    }
+}
+
+carregarFormulario();
