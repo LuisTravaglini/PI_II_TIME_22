@@ -1,5 +1,5 @@
 // Autor: Arthur Alves Raymundi - 26000661
-// Rota GET /demandas: lista as demandas, com filtros, busca e ordenação pela URL.
+// Rota GET /demandas: lista as demandas do banco Oracle, com filtros, busca e ordenação pela URL.
 //
 // Exemplos:
 //   /demandas                                  -> todas
@@ -8,107 +8,76 @@
 //   /demandas?ordenarPor=prazo                 -> ordena (prioridade, dataCriacao, prazo ou status)
 //
 // Filtros aceitos: status, prioridade, tipo, responsavelId, projetoId.
+// As consultas ao banco ficam em listagemBanco.js.
 
 import { Router } from "express";
-import { demandas, projetos, usuarios } from "./dados.js";
+import { buscarDemandasLista } from "./listagemBanco.js";
 
 const router = Router();
 
-// Ordem usada para ordenar prioridade e status (o menor número vem primeiro).
-const ORDEM_PRIORIDADE = { critica: 1, alta: 2, media: 3, baixa: 4 };
-const ORDEM_STATUS = { aberta: 1, andamento: 2, revisao: 3, concluida: 4, cancelada: 5 };
+// Valores aceitos em cada filtro (os mesmos combinados da equipe, sem acento e em minúsculo).
+const STATUS_ACEITOS = ["aberta", "andamento", "revisao", "concluida", "cancelada"];
+const PRIORIDADES_ACEITAS = ["critica", "alta", "media", "baixa"];
+const TIPOS_ACEITOS = ["tarefa", "defeito", "melhoria", "documentacao"];
 const ORDENACOES_ACEITAS = ["prioridade", "dataCriacao", "prazo", "status"];
+const TAMANHO_MAXIMO_BUSCA = 100;
 
-// Troca os ids de projeto e responsável pelos nomes, para a tela mostrar direto.
-function montarDemandaParaLista(demanda) {
-    const projeto = projetos.find((p) => p.id === demanda.projetoId);
-    const responsavel = usuarios.find((u) => u.id === demanda.responsavelId);
-
-    return {
-        id: demanda.id,
-        titulo: demanda.titulo,
-        tipo: demanda.tipo,
-        prioridade: demanda.prioridade,
-        status: demanda.status,
-        projeto: projeto ? projeto.nome : null,
-        responsavel: responsavel ? responsavel.nome : null,   // null = sem responsável
-        dataCriacao: demanda.dataCriacao,
-        prazo: demanda.prazo
-    };
+// Confere se o id veio como número inteiro positivo ("3" vale, "abc" e "-1" não).
+function idValido(valor) {
+    const numero = Number(valor);
+    return Number.isInteger(numero) && numero > 0;
 }
 
-// Compara duas datas "AAAA-MM-DD". Datas vazias (sem prazo) vão para o fim.
-function compararDatas(dataA, dataB) {
-    if (dataA === "" && dataB === "") return 0;
-    if (dataA === "") return 1;
-    if (dataB === "") return -1;
-
-    // Nesse formato, comparar como texto já dá a ordem certa ("2026-09-01" < "2026-10-05").
-    return dataA.localeCompare(dataB);
-}
-
-router.get("/demandas", (req, res) => {
+router.get("/demandas", async (req, res) => {
     const { status, prioridade, tipo, responsavelId, projetoId, busca, ordenarPor } = req.query;
 
-    // Começa com todas e vai tirando o que não passa em cada filtro.
-    let resultado = demandas;
-
-    // 1. Filtros: cada um só é aplicado se veio na URL.
-    if (status) {
-        resultado = resultado.filter((d) => d.status === status);
+    // 1. Validações no servidor (as do front não bastam: dá para chamar a API direto pela URL).
+    if (status && !STATUS_ACEITOS.includes(status)) {
+        return res.status(400).json({ erro: "Status inválido. Use aberta, andamento, revisao, concluida ou cancelada." });
     }
 
-    if (prioridade) {
-        resultado = resultado.filter((d) => d.prioridade === prioridade);
+    if (prioridade && !PRIORIDADES_ACEITAS.includes(prioridade)) {
+        return res.status(400).json({ erro: "Prioridade inválida. Use critica, alta, media ou baixa." });
     }
 
-    if (tipo) {
-        resultado = resultado.filter((d) => d.tipo === tipo);
+    if (tipo && !TIPOS_ACEITOS.includes(tipo)) {
+        return res.status(400).json({ erro: "Tipo inválido. Use tarefa, defeito, melhoria ou documentacao." });
     }
 
-    // Tudo que vem na URL é texto, por isso o Number(...) para comparar com os ids.
-    if (responsavelId) {
-        resultado = resultado.filter((d) => d.responsavelId === Number(responsavelId));
+    if (responsavelId && !idValido(responsavelId)) {
+        return res.status(400).json({ erro: "responsavelId deve ser um número inteiro positivo." });
     }
 
-    if (projetoId) {
-        resultado = resultado.filter((d) => d.projetoId === Number(projetoId));
+    if (projetoId && !idValido(projetoId)) {
+        return res.status(400).json({ erro: "projetoId deve ser um número inteiro positivo." });
     }
 
-    // 2. Busca textual no título ou na descrição (sem diferenciar maiúscula de minúscula).
-    if (busca) {
-        const termo = busca.toLowerCase().trim();
+    if (busca && busca.length > TAMANHO_MAXIMO_BUSCA) {
+        return res.status(400).json({ erro: `A busca deve ter no máximo ${TAMANHO_MAXIMO_BUSCA} caracteres.` });
+    }
 
-        resultado = resultado.filter((d) => {
-            return d.titulo.toLowerCase().includes(termo) || d.descricao.toLowerCase().includes(termo);
+    if (ordenarPor && !ORDENACOES_ACEITAS.includes(ordenarPor)) {
+        return res.status(400).json({ erro: "ordenarPor deve ser: prioridade, dataCriacao, prazo ou status." });
+    }
+
+    // 2. Consulta no banco. Os ids vão como número; a busca vai sem espaços nas pontas.
+    try {
+        const demandas = await buscarDemandasLista({
+            status,
+            prioridade,
+            tipo,
+            responsavelId: responsavelId ? Number(responsavelId) : null,
+            projetoId: projetoId ? Number(projetoId) : null,
+            busca: busca ? busca.trim() : "",
+            ordenarPor
         });
+
+        return res.status(200).json(demandas);
+    } catch (erro) {
+        // 503 = o servidor está de pé, mas o banco não respondeu.
+        console.error("Erro ao listar demandas:", erro.message);
+        return res.status(503).json({ erro: "Não foi possível consultar as demandas no banco." });
     }
-
-    // 3. Ordenação.
-    if (ordenarPor) {
-        if (!ORDENACOES_ACEITAS.includes(ordenarPor)) {
-            return res.status(400).json({
-                erro: "ordenarPor deve ser: prioridade, dataCriacao, prazo ou status."
-            });
-        }
-
-        // [...resultado] faz uma cópia, para o sort não bagunçar a lista original do dados.js.
-        resultado = [...resultado].sort((a, b) => {
-            if (ordenarPor === "prioridade") {
-                return ORDEM_PRIORIDADE[a.prioridade] - ORDEM_PRIORIDADE[b.prioridade];
-            }
-
-            if (ordenarPor === "status") {
-                return ORDEM_STATUS[a.status] - ORDEM_STATUS[b.status];
-            }
-
-            // dataCriacao ou prazo
-            return compararDatas(a[ordenarPor], b[ordenarPor]);
-        });
-    }
-
-    // 4. Monta a resposta com os nomes no lugar dos ids.
-    res.json(resultado.map(montarDemandaParaLista));
 });
 
 export default router;
