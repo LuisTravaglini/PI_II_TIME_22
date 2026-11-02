@@ -1,7 +1,7 @@
 // Autor: João Pedro Cayres Villela — Autoria exclusiva deste arquivo
 
 import { Router } from "express";
-import { executarQuery } from "./bancoOracle.js";
+import { conectarOracle } from "./bancoOracle.js";
 
 const router = Router();
 
