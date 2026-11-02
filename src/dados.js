@@ -54,3 +54,6 @@ export const comentarios = [
     { id: 1, demandaId: 2, usuarioId: 1, texto: "Consegue terminar até sexta?", dataHora: "2026-10-14T10:30:00.000Z" },
     { id: 2, demandaId: 2, usuarioId: 5, texto: "Sim, já achei a causa.", dataHora: "2026-10-14T11:05:00.000Z" }
 ];
+
+export const historico = [];
+
