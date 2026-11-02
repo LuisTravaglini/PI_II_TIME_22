@@ -127,14 +127,13 @@ router.patch("/demandas/:id/cancelar", (req, res) => {
     }
 
     const statusAnterior = demanda.status;
-
-    // Atualiza status sem apagar o registro
     demanda.status = "Cancelada";
     demanda.dataAtualizacao = new Date().toISOString();
 
-    // Registra no histórico
-    historico.push({
-        id: historico.length + 1,
+    const listaHistorico = Array.isArray(historico) ? historico : [];
+
+    listaHistorico.push({
+        id: listaHistorico.length + 1,
         demandaId: id,
         usuario: usuarioNome || "Usuário",
         descricao: `cancelou a demanda (status anterior: '${statusAnterior}')`,
@@ -154,11 +153,9 @@ router.get("/demandas/:id/historico", (req, res) => {
         return res.status(404).json({ mensagem: "Demanda não encontrada" });
     }
 
-    const historicoDemanda = historico.filter(h => h.demandaId === idDemanda);
+    const listaHistorico = Array.isArray(historico) ? historico : [];
+    const historicoDemanda = listaHistorico.filter(h => h.demandaId === idDemanda);
     return res.status(200).json(historicoDemanda);
 });
-
-
-
 
 export default router;
