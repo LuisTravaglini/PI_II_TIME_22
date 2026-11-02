@@ -4,11 +4,11 @@
 
  
 export const usuarios = [
-    { id: 1, nome: "Arthur", email: "arthur@trak.com", senha: "123456", perfil: "gestor" },
-    { id: 2, nome: "Gabriel", email: "gabriel@trak.com", senha: "123456", perfil: "desenvolvedor" },
-    { id: 3, nome: "João Pedro", email: "joao@trak.com", senha: "123456", perfil: "desenvolvedor" },
-    { id: 4, nome: "Kaiky", email: "kaiky@trak.com", senha: "123456", perfil: "desenvolvedor" },
-    { id: 5, nome: "Luís", email: "luis@trak.com", senha: "123456", perfil: "desenvolvedor" }
+    { id: 1, nome: "Arthur", email: "arthur@gmail.com", senha: "12345678", perfil: "administrador" },
+    { id: 2, nome: "Gabriel", email: "gabriel@gmail.com", senha: "12345678", perfil: "membro" },
+    { id: 3, nome: "João Pedro", email: "joao@gmail.com", senha: "12345678", perfil: "membro" },
+    { id: 4, nome: "Kaiky", email: "kaiky@gmail.com", senha: "12345678", perfil: "membro" },
+    { id: 5, nome: "Luís", email: "luis@gmail.com", senha: "12345678", perfil: "lider" }
 ];
  
 export const projetos = [

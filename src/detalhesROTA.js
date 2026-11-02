@@ -1,9 +1,12 @@
 // Autor: João Pedro Cayres Villela — Autoria exclusiva deste arquivo
 
 import { Router } from "express";
+import { demandas, comentarios } from "./dados.js"; 
+import { buscarUsuarioPorId } from "./usuarioBanco.js";
 import { conectarOracle } from "./bancoOracle.js";
 
 const router = Router();
+
 
 // 1. GET /demandas/:id
 router.get("/demandas/:id", async (req, res) => {
@@ -41,6 +44,8 @@ router.get("/demandas/:id/comentarios", async (req, res) => {
 
 // 3. POST /demandas/:id/comentarios
 router.post("/demandas/:id/comentarios", async (req, res) => {
+    const idDemanda = Number(req.params.id);
+    const { usuarioId, texto } = req.body;
     try {
         const idDemanda = Number(req.params.id);
         const { usuarioId, texto } = req.body;
@@ -145,6 +150,9 @@ router.get("/demandas/:id/historico", async (req, res) => {
             [idDemanda]
         );
 
+    const usuarioExiste = await buscarUsuarioPorId(Number(usuarioId));
+    if (!usuarioExiste) {
+        return res.status(400).json({ mensagem: "Usuário não encontrado." });
         return res.status(200).json(resOracle.rows);
     } catch (erro) {
         return res.status(500).json({ mensagem: "Erro ao buscar histórico." });

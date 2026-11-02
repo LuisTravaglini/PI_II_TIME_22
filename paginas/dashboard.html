@@ -7,6 +7,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="dashboard.css">
+    <script src="controle-acesso.js" defer></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <div class="secao">
+
+        <div class="cabecalho-topo">
+            <img src="TRAK_LOGO_cortada.png" alt="Logo do sistema" class="logo">
+        </div>
+        <h2>Dashboard de demandas</h2>
+
+        <div class="cards-resumo">
+
+            <div class="card-resumo">
+                <p class="valor">48</p>
+                <p class="rotulo">Total</p>
+            </div>
+
+            <div class="card-resumo">
+                <p class="valor">12</p>
+                <p class="rotulo">Abertas</p>
+            </div>
+
+            <div class="card-resumo">
+                <p class="valor">15</p>
+                <p class="rotulo">Em andamento</p>
+            </div>
+
+            <div class="card-resumo">
+                <p class="valor">6</p>
+                <p class="rotulo">Em revisão</p>
+            </div>
+
+            <div class="card-resumo">
+                <p class="valor">13</p>
+                <p class="rotulo">Concluídas</p>
+            </div>
+
+            <div class="card-resumo">
+                <p class="valor">2</p>
+                <p class="rotulo">Canceladas</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="secao">
+
+        <div class="graficos">
+
+            <div class="painel">
+                <h3>Por prioridade</h3>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Crítica</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 19%; background-color: #c0392b;"></div>
+                    </div>
+                    <span class="barra-valor">4</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Alta</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 71%; background-color: #e67e22;"></div>
+                    </div>
+                    <span class="barra-valor">15</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Média</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 100%; background-color: #1f4e79;"></div>
+                    </div>
+                    <span class="barra-valor">21</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Baixa</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 38%; background-color: #27ae60;"></div>
+                    </div>
+                    <span class="barra-valor">8</span>
+                </div>
+
+            </div>
+
+            <div class="painel">
+                <h3>Por tipo</h3>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Tarefa</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 100%; background-color: #1f4e79;"></div>
+                    </div>
+                    <span class="barra-valor">19</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Defeito</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 68%; background-color: #1f4e79;"></div>
+                    </div>
+                    <span class="barra-valor">13</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Melhoria</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 53%; background-color: #1f4e79;"></div>
+                    </div>
+                    <span class="barra-valor">10</span>
+                </div>
+
+                <div class="barra-linha">
+                    <span class="barra-rotulo">Documentação</span>
+                    <div class="barra-trilho">
+                        <div class="barra-preenchida" style="width: 32%; background-color: #1f4e79;"></div>
+                    </div>
+                    <span class="barra-valor">6</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="secao">
+
+        <div class="destaques">
+
+            <div class="painel">
+
+                <h3>Críticas em aberto</h3>
+
+                <div class="lista-linha">
+                    <span class="lista-texto">Corrigir falha no login</span>
+                    <span class="badge badge-critica">Crítica</span>
+                </div>
+
+                <div class="lista-linha">
+                    <span class="lista-texto">API de pagamento fora do ar</span>
+                    <span class="badge badge-critica">Crítica</span>
+                </div>
+
+                <div class="lista-linha">
+                    <span class="lista-texto">Vazamento de memória no servidor</span>
+                    <span class="badge badge-critica">Crítica</span>
+                </div>
+
+            </div>
+
+        <div class="painel">
+
+            <h3>Próximas do prazo</h3>
+
+            <div class="lista-linha">
+                <span class="lista-texto">Ajustar layout responsivo</span>
+                <span class="badge badge-prazo">em 2 dias</span>
+            </div>
+
+            <div class="lista-linha">
+                <span class="lista-texto">Documentar endpoints da API</span>
+                <span class="badge badge-prazo">em 3 dias</span>
+            </div>
+
+            <div class="lista-linha">
+                <span class="lista-texto">Validar cadastro de demandas</span>
+                <span class="badge badge-prazo">em 5 dias</span>
+            </div>
+
+        </div>
+
+        </div>
+
+    </div>
+</body>
+<!-- FEITO POR: Arthur Alves Raymundi - 26000661 -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dashboard.css">
 
     <title>Dashboard</title>
 </head>
@@ -110,4 +302,4 @@
     <!-- Busca os indicadores em GET /dashboard e preenche esta página -->
     <script src="dashboard.js"></script>
 </body>
-</html>
+</html>
