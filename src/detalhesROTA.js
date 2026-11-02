@@ -1,12 +1,13 @@
 // Autor: João Pedro Cayres Villela 
 
-
 import { Router } from "express";
-import { demandas, comentarios, usuarios, historico } from "./dados.js";
+import { demandas, comentarios, usuarios, historico } from "./dados.js"; 
 
 const router = Router();
 
+
 // 1. GET /demandas/:id
+
 router.get("/demandas/:id", (req, res) => {
     const id = Number(req.params.id);
     const demanda = demandas.find(d => d.id === id);
@@ -18,7 +19,9 @@ router.get("/demandas/:id", (req, res) => {
     return res.status(200).json(demanda);
 });
 
+
 // 2. GET /demandas/:id/comentarios
+
 router.get("/demandas/:id/comentarios", (req, res) => {
     const idDemanda = Number(req.params.id);
 
@@ -31,7 +34,9 @@ router.get("/demandas/:id/comentarios", (req, res) => {
     return res.status(200).json(listaComentarios);
 });
 
+
 // 3. POST /demandas/:id/comentarios
+
 router.post("/demandas/:id/comentarios", (req, res) => {
     const idDemanda = Number(req.params.id);
     const { usuarioId, texto } = req.body;
@@ -53,7 +58,7 @@ router.post("/demandas/:id/comentarios", (req, res) => {
     if (!usuarioExiste) {
         return res.status(400).json({ mensagem: "Usuário não encontrado." });
     }
-    // Cria o objeto do novo comentário (com dataHora registrada automaticamente)
+
     const novoComentario = {
         id: comentarios.length + 1,
         demandaId: idDemanda,
@@ -67,7 +72,8 @@ router.post("/demandas/:id/comentarios", (req, res) => {
     return res.status(201).json(novoComentario);
 });
 
-// 4. ALTERAÇÃO DE STATUS (REGRAS DO CICLO DE VIDA)
+
+// 4. PATCH /demandas/:id/status 
 
 router.patch("/demandas/:id/status", (req, res) => {
     const id = Number(req.params.id);
@@ -80,7 +86,6 @@ router.patch("/demandas/:id/status", (req, res) => {
 
     const statusAtual = demanda.status;
 
-    // Regras de transição permitidas
     const transicoesValidas = {
         "Aberta": ["Em andamento"],
         "Em andamento": ["Em revisão"],
@@ -95,7 +100,6 @@ router.patch("/demandas/:id/status", (req, res) => {
         });
     }
 
-    // Registra alteração no histórico
     historico.push({
         id: historico.length + 1,
         demandaId: id,
@@ -104,14 +108,14 @@ router.patch("/demandas/:id/status", (req, res) => {
         dataHora: new Date().toISOString()
     });
 
-    // Atualiza o status e a data de atualização
     demanda.status = novoStatus;
     demanda.dataAtualizacao = new Date().toISOString();
 
     return res.status(200).json(demanda);
 });
 
-// 5. CANCELAMENTO DA DEMANDA (SEM EXCLUSÃO FÍSICA)
+
+// 5. PATCH /demandas/:id/cancelar
 
 router.patch("/demandas/:id/cancelar", (req, res) => {
     const id = Number(req.params.id);
@@ -130,10 +134,8 @@ router.patch("/demandas/:id/cancelar", (req, res) => {
     demanda.status = "Cancelada";
     demanda.dataAtualizacao = new Date().toISOString();
 
-    const listaHistorico = Array.isArray(historico) ? historico : [];
-
-    listaHistorico.push({
-        id: listaHistorico.length + 1,
+    historico.push({
+        id: historico.length + 1,
         demandaId: id,
         usuario: usuarioNome || "Usuário",
         descricao: `cancelou a demanda (status anterior: '${statusAnterior}')`,
@@ -143,7 +145,7 @@ router.patch("/demandas/:id/cancelar", (req, res) => {
     return res.status(200).json({ mensagem: "Demanda cancelada com sucesso", demanda });
 });
 
-// 6. OBTER HISTÓRICO DA DEMANDA
+// 6. GET /demandas/:id/historico
 
 router.get("/demandas/:id/historico", (req, res) => {
     const idDemanda = Number(req.params.id);
@@ -153,8 +155,7 @@ router.get("/demandas/:id/historico", (req, res) => {
         return res.status(404).json({ mensagem: "Demanda não encontrada" });
     }
 
-    const listaHistorico = Array.isArray(historico) ? historico : [];
-    const historicoDemanda = listaHistorico.filter(h => h.demandaId === idDemanda);
+    const historicoDemanda = historico.filter(h => h.demandaId === idDemanda);
     return res.status(200).json(historicoDemanda);
 });
 

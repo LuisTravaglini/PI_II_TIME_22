@@ -55,5 +55,15 @@ export const comentarios = [
     { id: 2, demandaId: 2, usuarioId: 5, texto: "Sim, já achei a causa.", dataHora: "2026-10-14T11:05:00.000Z" }
 ];
 
-export const historico = [];
+// Autor: Arthur / João Pedro Cayres Villela
+
+export const historico = [
+    {
+        id: 1,
+        demandaId: 2,
+        usuario: "Arthur",
+        descricao: "criou a demanda",
+        dataHora: "2026-10-05T08:00:00.000Z"
+    }
+];
 
