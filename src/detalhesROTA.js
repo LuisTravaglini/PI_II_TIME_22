@@ -1,9 +1,11 @@
 // Autor:               João Pedro Cayres Villela
 
 import { Router } from "express";
-import { demandas, comentarios, usuarios } from "./dados.js"; 
+import { demandas, comentarios } from "./dados.js"; 
+import { buscarUsuarioPorId } from "./usuarioBanco.js";
 
 const router = Router();
+
 
 // 1. GET /demandas/:id
 router.get("/demandas/:id", (req, res) => {
@@ -31,7 +33,7 @@ router.get("/demandas/:id/comentarios", (req, res) => {
 });
 
 // 3. POST /demandas/:id/comentarios
-router.post("/demandas/:id/comentarios", (req, res) => {
+router.post("/demandas/:id/comentarios", async (req, res) => {
     const idDemanda = Number(req.params.id);
     const { usuarioId, texto } = req.body;
 
@@ -48,7 +50,7 @@ router.post("/demandas/:id/comentarios", (req, res) => {
         return res.status(400).json({ mensagem: "O ID do usuário é obrigatório." });
     }
 
-    const usuarioExiste = usuarios.some(u => u.id === Number(usuarioId));
+    const usuarioExiste = await buscarUsuarioPorId(Number(usuarioId));
     if (!usuarioExiste) {
         return res.status(400).json({ mensagem: "Usuário não encontrado." });
     }

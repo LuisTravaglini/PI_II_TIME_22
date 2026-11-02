@@ -3,11 +3,10 @@
 // Este arquivo contém a rota de cadastro de usuários e suas validações.
 
 import { Router } from "express";
-import { usuarios } from "./dados.js";
+import { buscarUsuarioPorEmail, cadastrarUsuario } from "./usuarioBanco.js";
+import { PERFIS } from "./perfis.js";
 
 const router = Router();
-
-const semSenha = ({senha, ...resto }) => resto;
 
 function validarCadastro ({nome, email, senha, repetirSenha}) {
     if(!nome || !email || !senha || !repetirSenha) {
@@ -35,7 +34,7 @@ function validarCadastro ({nome, email, senha, repetirSenha}) {
     return null;
 }
 
-router.post("/usuarios", (req, res) => {
+router.post("/usuarios", async (req, res) => {
     const {nome, email, senha, repetirSenha} = req.body || {};
 
     const problema = validarCadastro({nome,email,senha, repetirSenha});
@@ -45,20 +44,17 @@ router.post("/usuarios", (req, res) => {
 
     const emailNormalizado = email.trim().toLowerCase();
 
-    if (usuarios.some(u => u.email.toLowerCase() === emailNormalizado)) {
+    if (await buscarUsuarioPorEmail(emailNormalizado)) {
         return res.status(409).json({erro: "E-mail já cadastrado"});
     }
 
-    const novo ={
-        id: usuarios.length ? Math.max(...usuarios.map(u => u.id)) +1 : 1,
+    const novo = await cadastrarUsuario({ 
         nome: nome.trim(),
         email: emailNormalizado, senha,
-        perfil: "desenvolvedor",    
-    };
+        perfil: PERFIS.MEMBRO,    
+    });
 
-    usuarios.push(novo);
-
-    return res.status(201).json({usuario: semSenha(novo)});
+    return res.status(201).json({usuario:novo});
 
 });
 
