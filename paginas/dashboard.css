@@ -150,3 +150,26 @@ body{
         padding: 15px;
     }
 }
+/* Reunião 5: link para a listagem, mensagem de erro da API e títulos clicáveis */
+.barra-rotulo {
+    width: 100px;   /* cabe "Documentação" sem encostar na barra */
+}
+
+.link-listagem {
+    margin-left: auto;
+    color: #1f4e79;
+    font-weight: 600;
+}
+
+.mensagem-erro {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+.mensagem-erro:empty {
+    display: none;
+}
+
+.lista-texto a {
+    color: #333333;
+}

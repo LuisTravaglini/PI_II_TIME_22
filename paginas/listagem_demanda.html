@@ -1,15 +1,16 @@
-       <!-- Joao Pedro Cayres Villela  -->
+<!-- Autores: Joao Pedro Cayres Villela (layout, Reunião 2) e Arthur Alves Raymundi - 26000661 (integração com a API, Reunião 5) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listagem de Demandas - PI2</title>
-    
+
     <link rel="stylesheet" href="listagem.css">
     <script src="listagem.js" defer></script>
     <script src="controle-acesso.js" defer></script>
     
+
 </head>
 <body>
 
@@ -27,18 +28,18 @@
             <h2>Demandas Cadastradas</h2>
         </section>
 
-            <section class="controles-listagem">
+        <!-- Os valores dos selects são os mesmos que a API aceita em GET /demandas -->
+        <section class="controles-listagem">
             <div class="campo-busca">
-            <input type="text" placeholder="Buscar demanda por título ou descrição..." id="busca-demanda">
-            <button type="button" id="btn-buscar" class="btn-primario">Buscar</button>
-             </div>
-...
-            
+                <input type="text" placeholder="Buscar demanda por título ou descrição..." id="busca-demanda">
+                <button type="button" id="btn-buscar" class="btn-primario">Buscar</button>
+            </div>
+
             <select id="filtro-status">
                 <option value="">Filtrar por Status</option>
                 <option value="aberta">Aberta</option>
-                <option value="em-andamento">Em andamento</option>
-                <option value="em-revisao">Em revisão</option>
+                <option value="andamento">Em andamento</option>
+                <option value="revisao">Em revisão</option>
                 <option value="concluida">Concluída</option>
                 <option value="cancelada">Cancelada</option>
             </select>
@@ -54,11 +55,14 @@
             <select id="ordenacao">
                 <option value="">Ordenar por...</option>
                 <option value="prioridade">Prioridade</option>
-                <option value="data-criacao">Data de criação</option>
+                <option value="dataCriacao">Data de criação</option>
                 <option value="prazo">Prazo de finalização</option>
                 <option value="status">Status</option>
             </select>
         </section>
+
+        <!-- Erros devolvidos pela API (400, 503...) aparecem aqui -->
+        <p id="erro-api" class="mensagem-erro" role="alert"></p>
 
         <section class="area-dados">
             <table class="tabela-demandas">
@@ -75,21 +79,8 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
+                <!-- As linhas são montadas pelo listagem.js com os dados do banco -->
                 <tbody>
-                    <tr>
-                        <td>Ajustar tela de login</td>
-                        <td>Defeito</td>
-                        <td>Alta</td>
-                        <td>Aberta</td>
-                        <td>Projeto E-commerce</td>
-                        <td>Não atribuído</td>
-                        <td>07/09/2026</td>
-                        <td>15/09/2026</td>
-                        <td>
-                            <a href="detalhes-demanda.html" class="btn-detalhes">Ver Detalhes</a>
-                        </td>
-                    </tr>
-                    
                 </tbody>
             </table>
         </section>
