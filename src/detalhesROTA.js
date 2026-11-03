@@ -141,7 +141,7 @@ router.patch("/demandas/:id/cancelar", async (req, res) => {
     }
 });
 
-// 6. GET /demandas/:id/historico
+/// 6. GET /demandas/:id/historico
 router.get("/demandas/:id/historico", async (req, res) => {
     try {
         const idDemanda = Number(req.params.id);
@@ -150,9 +150,6 @@ router.get("/demandas/:id/historico", async (req, res) => {
             [idDemanda]
         );
 
-    const usuarioExiste = await buscarUsuarioPorId(Number(usuarioId));
-    if (!usuarioExiste) {
-        return res.status(400).json({ mensagem: "Usuário não encontrado." });
         return res.status(200).json(resOracle.rows);
     } catch (erro) {
         return res.status(500).json({ mensagem: "Erro ao buscar histórico." });
