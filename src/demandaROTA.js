@@ -3,7 +3,8 @@
 // Este arquivo contém as rotas de listagem de projetos e cadastro de demandas.
 
 import { Router } from "express";
-import { buscarProjetos, buscarUsuariosCadastro, buscarDemandaCadastro, gravarDemanda } from "./demandaBanco.js";
+import { buscarProjetos, buscarUsuariosCadastro, buscarDemandaCadastro, gravarDemanda, atualizarDemandaComHistorico } from "./demandaBanco.js";
+import { exigirPermissaoDemanda } from "./permissoesDemanda.js";
 
 const router = Router();
 
@@ -137,7 +138,9 @@ async function salvarDemanda(req, res) {
         responsavelId: responsavelIdNumero,
         prazo: prazo || null
     };
-    const demanda = await gravarDemanda(dados, id);
+    const demanda = id === null
+        ? await gravarDemanda(dados, null)
+        : await atualizarDemandaComHistorico(dados, id, req.usuario.id);
     if (!demanda) return res.status(404).json({ erro: "Demanda não encontrada." });
     return res.status(id === null ? 201 : 200).json(demanda);
     } catch (erro) {
@@ -146,7 +149,7 @@ async function salvarDemanda(req, res) {
     }
 }
 
-router.post("/demandas", salvarDemanda);
-router.put("/demandas/:id", salvarDemanda);
+router.post("/demandas", exigirPermissaoDemanda("criar_demanda"), salvarDemanda);
+router.put("/demandas/:id", exigirPermissaoDemanda("editar_demanda"), salvarDemanda);
 
 export default router;

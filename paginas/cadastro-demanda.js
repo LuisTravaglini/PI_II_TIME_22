@@ -124,6 +124,18 @@ formulario.addEventListener("submit", async function (event) {
         return;
     }
 
+    // Mesmo nome de armazenamento e header combinados com o login do grupo.
+    let usuario;
+    try {
+        usuario = JSON.parse(sessionStorage.getItem("usuario") || localStorage.getItem("usuario") || "null");
+    } catch (erro) {
+        usuario = null;
+    }
+    if (!usuario || !usuario.id) {
+        mostrarResultado("Faça login antes de salvar a demanda.", true);
+        return;
+    }
+
     const dados = {
         titulo, descricao, tipo: campoTipo.value, prioridade: campoPrioridade.value,
         projetoId: Number(campoProjeto.value),
@@ -135,7 +147,7 @@ formulario.addEventListener("submit", async function (event) {
     try {
         await requisitar(idDemanda ? `/demandas/${encodeURIComponent(idDemanda)}` : "/demandas", {
             method: idDemanda ? "PUT" : "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "x-usuario-id": String(usuario.id) },
             body: JSON.stringify(dados)
         });
         mostrarResultado(idDemanda ? "Demanda atualizada com sucesso." : "Demanda cadastrada com sucesso.");
