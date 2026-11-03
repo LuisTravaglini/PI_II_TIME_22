@@ -44,3 +44,6 @@ CREATE TABLE historico_alteracoes (
     valor_novo VARCHAR2(4000),
     data_hora TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
 );
+
+
+SELECT table_name FROM user_tables;
