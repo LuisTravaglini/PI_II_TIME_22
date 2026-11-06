@@ -1,3 +1,4 @@
+// Autor: Luis Travaglini
 // Preparação da conexão compartilhada com o banco Oracle da equipe.
 // As credenciais devem ser definidas no ambiente e nunca no código.
 import oracledb from "oracledb";
