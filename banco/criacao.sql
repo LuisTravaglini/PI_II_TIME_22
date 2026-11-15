@@ -45,5 +45,9 @@ CREATE TABLE historico_alteracoes (
     data_hora TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
 );
 
-
-SELECT table_name FROM user_tables;
+-- Vínculo usuário e projeto: Líder e Membro só veem os projetos a que estão vinculados.
+CREATE TABLE usuarios_projetos (
+    usuario_id NUMBER NOT NULL REFERENCES usuarios(id),
+    projeto_id NUMBER NOT NULL REFERENCES projetos(id),
+    CONSTRAINT pk_usuarios_projetos PRIMARY KEY (usuario_id, projeto_id)
+);

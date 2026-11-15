@@ -3,7 +3,7 @@
 INSERT INTO projetos (nome) VALUES ('Sistema TRAK');
 INSERT INTO projetos (nome) VALUES ('Site institucional');
 
-INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Administrador de teste', 'admin@teste.invalid', '123456', 'administrador');
-INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Líder de teste', 'lider@teste.invalid', '123456', 'lider');
-INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Membro de teste', 'membro@teste.invalid', '123456', 'membro');
+INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Administrador de teste', 'admin@teste.invalid', 'Teste@123', 'administrador');
+INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Líder de teste', 'lider@teste.invalid', 'Teste@123', 'lider');
+INSERT INTO usuarios (nome, email, senha, perfil) VALUES ('Membro de teste', 'membro@teste.invalid', 'Teste@123', 'membro');
 COMMIT;
