@@ -3,11 +3,10 @@
 // Este arquivo contém a rota de cadastro de usuários e suas validações.
 
 import { Router } from "express";
-import { usuarios } from "./dados.js";
+import { executarQuery } from "./bancoOracle.js";
+import { gerarHash } from "./autenticacao.js";
 
 const router = Router();
-
-const semSenha = ({senha, ...resto }) => resto;
 
 function validarCadastro ({nome, email, senha, repetirSenha}) {
     if(!nome || !email || !senha || !repetirSenha) {
@@ -35,31 +34,32 @@ function validarCadastro ({nome, email, senha, repetirSenha}) {
     return null;
 }
 
-router.post("/usuarios", (req, res) => {
-    const {nome, email, senha, repetirSenha} = req.body || {};
+router.post("/usuarios", async (req, res) => {
+    const { nome, email, senha, repetirSenha } = req.body || {};
 
-    const problema = validarCadastro({nome,email,senha, repetirSenha});
+    const problema = validarCadastro({ nome, email, senha, repetirSenha });
     if (problema) {
-        return res.status(problema.status).json({erro: problema.erro});
+        return res.status(problema.status).json({ erro: problema.erro });
     }
 
     const emailNormalizado = email.trim().toLowerCase();
-
-    if (usuarios.some(u => u.email.toLowerCase() === emailNormalizado)) {
-        return res.status(409).json({erro: "E-mail já cadastrado"});
+    try {
+        await executarQuery(
+            `INSERT INTO usuarios (nome, email, senha, perfil) VALUES (:nome, :email, :senha, 'membro')`,
+            { nome: nome.trim(), email: emailNormalizado, senha: gerarHash(senha) }
+        );
+        const resultado = await executarQuery(
+            `SELECT id AS "id", nome AS "nome", email AS "email", perfil AS "perfil" FROM usuarios WHERE email = :email`,
+            { email: emailNormalizado }
+        );
+        return res.status(201).json({ usuario: resultado.rows[0] });
+    } catch (erro) {
+        if (erro.errorNum === 1) {
+            return res.status(409).json({ erro: "E-mail já cadastrado" });
+        }
+        console.error("Erro ao cadastrar usuário:", erro.message);
+        return res.status(503).json({ erro: "Não foi possível acessar o banco de dados." });
     }
-
-    const novo ={
-        id: usuarios.length ? Math.max(...usuarios.map(u => u.id)) +1 : 1,
-        nome: nome.trim(),
-        email: emailNormalizado, senha,
-        perfil: "desenvolvedor",    
-    };
-
-    usuarios.push(novo);
-
-    return res.status(201).json({usuario: semSenha(novo)});
-
 });
 
 export default router;

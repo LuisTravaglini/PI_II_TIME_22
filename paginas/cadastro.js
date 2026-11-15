@@ -1,3 +1,5 @@
+//Feito por: Gabriel Souza Gonçalves
+
 const formCadastro = document.querySelector("#formCadastro");
 
 const campoNome = document.querySelector("#nome");
@@ -104,7 +106,7 @@ formCadastro.addEventListener("submit", function(event) {
     }
 
     if (formValido) {
-        fetch("http://localhost:3000/usuarios", {
+        fetch("/usuarios", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nome, email, senha, repetirSenha })
@@ -113,6 +115,7 @@ formCadastro.addEventListener("submit", function(event) {
             const dados = await resposta.json();
             if (resposta.ok) {
                 alert("Cadastro realizado com sucesso!");
+                window.location.href = "login.html";
                 formCadastro.reset();
             } else {
                 alert(dados.erro);
