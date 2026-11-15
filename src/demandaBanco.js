@@ -18,6 +18,22 @@ export async function buscarProjetos() {
     } finally { await conexao.close(); }
 }
 
+// Administrador vê todos os projetos; os demais, apenas os vinculados.
+export async function buscarProjetosDoUsuario(usuario) {
+    const conexao = await conectarOracle();
+    try {
+        const admin = usuario.perfil === "administrador";
+        const resultado = await conexao.execute(
+            `SELECT p.id AS "id", p.nome AS "nome" FROM projetos p
+             ${admin ? "" : "WHERE p.id IN (SELECT projeto_id FROM usuarios_projetos WHERE usuario_id = :usuarioId)"}
+             ORDER BY p.nome`,
+            admin ? {} : { usuarioId: usuario.id },
+            { outFormat: oracledb.OUT_FORMAT_OBJECT }
+        );
+        return resultado.rows;
+    } finally { await conexao.close(); }
+}
+
 export async function buscarUsuariosCadastro() {
     const conexao = await conectarOracle();
     try {

@@ -3,8 +3,8 @@
 // Este arquivo contém as rotas de listagem de projetos e cadastro de demandas.
 
 import { Router } from "express";
-import { buscarProjetos, buscarUsuariosCadastro, buscarDemandaCadastro, gravarDemanda, atualizarDemandaComHistorico } from "./demandaBanco.js";
-import { exigirPermissaoDemanda } from "./permissoesDemanda.js";
+import { buscarProjetos, buscarProjetosDoUsuario, buscarUsuariosCadastro, buscarDemandaCadastro, gravarDemanda, atualizarDemandaComHistorico } from "./demandaBanco.js";
+import { exigirPermissaoDemanda, usuarioTemAcessoAoProjeto } from "./permissoesDemanda.js";
 
 const router = Router();
 
@@ -34,7 +34,7 @@ function dataValida(data) {
 
 // Lista os projetos de teste disponíveis para cadastrar uma demanda.
 router.get("/projetos", async (req, res) => {
-    try { return res.status(200).json(await buscarProjetos()); }
+    try { return res.status(200).json(await buscarProjetosDoUsuario(req.usuario)); }
     catch (erro) { console.error("Erro ao consultar projetos:", erro.code); return res.status(503).json({ erro: "Não foi possível consultar os projetos no banco." }); }
 });
 
@@ -49,6 +49,9 @@ router.get("/cadastro/demandas/:id", async (req, res) => {
     if (!Number.isInteger(id) || id < 1) return res.status(400).json({ erro: "ID de demanda inválido." });
     try {
         const demanda = await buscarDemandaCadastro(id);
+        if (demanda && !(await usuarioTemAcessoAoProjeto(req.usuario, demanda.projetoId))) {
+            return res.status(403).json({ erro: "Você não tem acesso a esta demanda." });
+        }
         return demanda ? res.json(demanda) : res.status(404).json({ erro: "Demanda não encontrada." });
     } catch (erro) { console.error("Erro ao consultar demanda:", erro.code); return res.status(503).json({ erro: "Não foi possível consultar a demanda no banco." }); }
 });
@@ -68,7 +71,11 @@ async function salvarDemanda(req, res) {
     const id = req.method === "PUT" ? Number(req.params.id) : null;
     if (id !== null && (!Number.isInteger(id) || id < 1)) return res.status(400).json({ erro: "ID de demanda inválido." });
     try {
-    if (id !== null && !(await buscarDemandaCadastro(id))) return res.status(404).json({ erro: "Demanda não encontrada." });
+    const existente = id !== null ? await buscarDemandaCadastro(id) : null;
+    if (id !== null && !existente) return res.status(404).json({ erro: "Demanda não encontrada." });
+    if (existente && !(await usuarioTemAcessoAoProjeto(req.usuario, existente.projetoId))) {
+        return res.status(403).json({ erro: "Você não tem acesso a esta demanda." });
+    }
     const { titulo, descricao, tipo, prioridade, projetoId, responsavelId, prazo } = req.body || {};
 
     if (!titulo || !String(titulo).trim()) {
@@ -99,6 +106,9 @@ async function salvarDemanda(req, res) {
 
     if (!projetoExiste) {
         return res.status(400).json({ erro: "O projeto informado não existe." });
+    }
+    if (!(await usuarioTemAcessoAoProjeto(req.usuario, projetoIdNumero))) {
+        return res.status(403).json({ erro: "Você não está vinculado a este projeto." });
     }
 
     let responsavelIdNumero = null;

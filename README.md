@@ -1,82 +1,60 @@
-# PI_II_TIME_22
+# TRAK — Sistema de Acompanhamento de Demandas
 
-
-## Sistema de Acompanhamento de Demandas de Desenvolvimento
-
-Projeto acadêmico desenvolvido no componente **Projeto Integrador II** do curso de **Engenharia de Software da PUC-Campinas**, durante o **2º semestre de 2026**.
-
-O projeto tem como objetivo desenvolver um sistema para acompanhamento de demandas de desenvolvimento de software, permitindo organizar projetos e controlar tarefas, defeitos, melhorias e atividades de documentação.
+Projeto Integrador II de Engenharia de Software da PUC-Campinas. O TRAK organiza demandas de desenvolvimento, como tarefas, defeitos, melhorias e documentação, vinculadas a projetos e responsáveis.
 
 ## Equipe
 
-- Arthur Alves Raymundi
-- Gabriel Souza Gonçalves
-- Joao Pedro Cayres Villela
-- Kaiky de Mello Rosa Severino
-- Luís Felipe Travaglini
+- Arthur Alves Raymundi — dashboard, listagem e servidor.
+- Gabriel Souza Gonçalves — login e cadastro de usuários.
+- João Pedro Cayres Villela — detalhes, comentários e histórico.
+- Luís Felipe Travaglini — cadastro e edição de demanda, autenticação e conexão Oracle.
 
-## Informações acadêmicas
+Os nomes e a divisão devem ser conferidos pelo grupo antes da entrega.
 
-- **Time:** PI_II_ES_TIME 22
-- **Curso:** Engenharia de Software
-- **Instituição:** Pontifícia Universidade Católica de Campinas
-- **Componente curricular:** Projeto Integrador II
-- **Semestre/Ano:** 2º semestre de 2026
-- **Professora orientadora:** Profa. Dra. Renata Arantes
+## Estado do projeto
 
-## Projeto
+As telas, as rotas e a integração com o Oracle estão em desenvolvimento. O grupo ainda precisa integrar as alterações pendentes dos integrantes, confirmar o vínculo entre usuários e projetos e testar todas as permissões e o sistema completo antes da banca.
 
-O sistema será voltado ao acompanhamento de demandas de desenvolvimento associadas a projetos de software. As demandas poderão representar tarefas, defeitos, melhorias ou atividades de documentação e possuirão informações como prioridade, responsável e status.
+O cadastro e a edição consultam a BrasilAPI para impedir prazo em feriado nacional. A disponibilidade do serviço externo é necessária quando há prazo informado.
 
-Nesta fase inicial, o foco da equipe está na configuração do ambiente de trabalho, organização do repositório e preparação do GitHub Projects.
+## Como executar
 
-## Tecnologias previstas
+### Pré-requisitos
 
-### Frontend
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
+- Node.js com suporte a `process.loadEnvFile` e npm.
+- Um banco Oracle acessível, local ou fornecido pela faculdade, e acesso ao SQL Developer para preparar as tabelas.
+- Se o banco da faculdade exigir VPN, configurá-la antes de conectar. O endereço, a porta e o serviço precisam ser confirmados pela instituição.
 
-### Backend
-- Node.js (versão LTS vigente)
-- TypeScript
+### Preparação
 
-### Banco de dados
-- MySQL ou Oracle
+1. Clone o repositório: `git clone https://github.com/LuisTravaglini/PI_II_TIME_22.git`.
+2. Entre na pasta clonada: `cd PI_II_TIME_22` e execute `npm install`.
+3. Copie `.env.example` para `.env`. Configure `TRAK_DB_USER`, `TRAK_DB_PASSWORD`, `TRAK_DB_CONNECT_STRING` e `TRAK_TOKEN_SECRET` com os valores do seu ambiente. O segredo deve ser longo, aleatório e mantido privado. Nunca envie `.env` ao GitHub.
+4. Em um **esquema de testes vazio**, prepare as tabelas e os dados utilizando `banco/criacao.sql`, `banco/carga_inicial.sql` e `banco/carga_demandas.sql`, nessa ordem, após revisar os scripts com a equipe. Não execute novamente a criação ou a carga em um banco existente sem verificar os dados.
+5. Execute `npm start` e abra `http://localhost:3000/login.html`.
 
-### Versionamento e gerenciamento
-- Git
-- GitHub
-- GitHub Projects
+Os scripts de vínculo entre usuário e projeto e as permissões ainda precisam ser integrados e testados. Sem a tabela `usuarios_projetos`, consultas que dependem dela não funcionarão. Os dados de teste devem ser conferidos no banco escolhido; não use contas de teste em produção.
 
-## Reuniões de acompanhamento
+## Perfis e regras previstas
 
-As reuniões de acompanhamento do **PI_II_ES_TIME 22** sao as **07:10** nas seguintes datas:
+O escopo prevê Administrador, Líder de Projeto e Membro da Equipe, com permissões diferentes e acesso aos projetos conforme vínculo. Essas regras ainda precisam ser verificadas em todas as rotas após a integração do grupo.
 
-| Reunião | Data |
+As demandas seguem o ciclo Aberta → Em andamento → Em revisão → Concluída, com retorno de Em revisão para Em andamento. O cancelamento preserva a demanda e seu histórico. As regras de transição e as permissões devem ser testadas antes da entrega.
 
-| 1 | 25/08/2026 
-| 2 | 08/09/2026 
-| 3 | 22/09/2026 
-| 4 | 06/10/2026 
-| 5 | 20/10/2026 
-| 6 | 03/11/2026 
-| 7 | 17/11/2026 
+## Rotas principais
 
-## Status atual
+- `POST /login` e `POST /usuarios`: login e cadastro de usuários.
+- `GET /usuarios`: consulta de usuários.
+- `GET /dashboard`: indicadores.
+- `GET /demandas` e `POST /demandas`: listagem e cadastro.
+- `GET /demandas/:id` e `PUT /demandas/:id`: detalhes e edição.
+- `PATCH /demandas/:id/status` e `PATCH /demandas/:id/cancelar`: status e cancelamento.
+- `GET` e `POST /demandas/:id/comentarios`: comentários.
+- `GET /demandas/:id/historico`: histórico.
+- `GET /projetos`: projetos para o formulário.
 
-**Etapa atual:** preparação inicial do ambiente de trabalho.
+As rotas protegidas utilizam `Authorization: Bearer <token>`; a integração e as regras de autorização de cada rota devem ser conferidas com o grupo.
 
-Atividades desta etapa:
+## Tecnologias
 
-- criação do repositório da equipe;
-- inclusão de todos os integrantes;
-- inclusão da professora orientadora;
-- configuração inicial do GitHub Projects;
-- criação e organização inicial do README.md;
-- configuração e teste do ambiente Git/GitHub pelos integrantes.
-
-## Execução do projeto
-
-As instruções de instalação, configuração e execução serão adicionadas conforme o desenvolvimento da aplicação avançar.
+Node.js, Express, Oracle (`oracledb`), HTML, CSS, JavaScript e Bootstrap. A migração do backend para TypeScript está pendente de coordenação com as alterações dos integrantes.
