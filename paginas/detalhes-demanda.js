@@ -1,3 +1,5 @@
+// FEITO POR: João Pedro Cayres Villela
+
 // Tela de detalhes da demanda.
 // Busca os dados nas rotas do detalhesROTA.js e preenche a página.
 // A demanda vem da URL: detalhes-demanda.html?id=2
@@ -121,6 +123,9 @@ function preencherDemanda(demanda, projetos, usuarios) {
     el("textoDescricao").textContent = demanda.descricao;
 
     el("linkEditar").href = `cadastro-demanda.html?id=${demanda.id}`;
+        // Membro não edita demanda (o servidor também bloqueia com 403).
+    const usuarioLogado = window.TRAK_AUTH ? TRAK_AUTH.usuario() : null;
+    el("linkEditar").classList.toggle("d-none", Boolean(usuarioLogado) && usuarioLogado.perfil === "membro");
     montarAcoes(demanda.status);
 }
 
@@ -128,7 +133,16 @@ function montarAcoes(status) {
     const area = el("botoesAcoes");
     area.querySelectorAll("button").forEach((botao) => botao.remove());
 
+    // O servidor já bloqueia com 403; aqui só escondemos o que o Membro não pode fazer.
+    const usuario = window.TRAK_AUTH ? TRAK_AUTH.usuario() : null;
+    const ehMembro = usuario && usuario.perfil === "membro";
+
     for (const acao of ACOES_POR_STATUS[status] || []) {
+        // Membro só faz Aberta para Em andamento e Em andamento para Em revisão.
+        const membroPode = (status === "aberta" && acao.novoStatus === "andamento")
+            || (status === "andamento" && acao.novoStatus === "revisao");
+        if (ehMembro && !membroPode) continue;
+
         const botao = document.createElement("button");
         botao.type = "button";
         botao.className = `btn ${acao.classe}`;
@@ -137,7 +151,8 @@ function montarAcoes(status) {
         area.appendChild(botao);
     }
 
-    if (status !== "concluida" && status !== "cancelada") {
+    // Membro não cancela demandas.
+    if (!ehMembro && status !== "concluida" && status !== "cancelada") {
         const cancelar = document.createElement("button");
         cancelar.type = "button";
         cancelar.className = "btn btn-outline-danger";
@@ -234,7 +249,7 @@ async function mudarStatus(novoStatus) {
     try {
         await chamarApi(
             `/demandas/${demandaId}/status`,
-            enviarJson("PATCH", { novoStatus, usuarioId: usuario.id })
+            enviarJson("PATCH", { novoStatus })
         );
         await carregarTudo();
     } catch (erro) {
@@ -254,7 +269,7 @@ async function cancelarDemanda() {
     try {
         await chamarApi(
             `/demandas/${demandaId}/cancelar`,
-            enviarJson("PATCH", { usuarioId: usuario.id })
+            enviarJson("PATCH", {})
         );
         await carregarTudo();
     } catch (erro) {
@@ -279,7 +294,7 @@ async function adicionarComentario() {
     try {
         await chamarApi(
             `/demandas/${demandaId}/comentarios`,
-            enviarJson("POST", { usuarioId: usuario.id, texto })
+               enviarJson("POST", { texto })
         );
         campo.value = "";
         await carregarTudo();
