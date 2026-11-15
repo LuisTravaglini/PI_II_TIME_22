@@ -8,6 +8,7 @@ import listagemRota from "./listagemROTA.js";
 import cadastroRota from "./cadastroROTA.js";     
 import demandaRota from "./demandaROTA.js";
 import detalhesRota from "./detalhesROTA.js";  
+import { autenticar } from "./autenticacao.js";
 
 const app = express();
 const PORT = 3000;
@@ -17,10 +18,11 @@ if (existsSync(".env")) process.loadEnvFile(".env");
 app.use(express.json());
 app.use(express.static("paginas"));
 
-app.use(loginRota);
+app.use(loginRota);  
+app.use(cadastroRota); 
+app.use(autenticar); 
 app.use(dashboardRota);
 app.use(listagemRota);
-app.use(cadastroRota);
 app.use(demandaRota);
 app.use(detalhesRota);
 

@@ -35,7 +35,7 @@ router.get("/dashboard", async (req, res) => {
 
     // 1. Busca as demandas no banco. Se o banco não responder, avisa a tela com 503.
     try {
-        demandas = await buscarDemandasDashboard();
+        demandas = await buscarDemandasDashboard(req.usuario);
     } catch (erro) {
         console.error("Erro ao consultar o dashboard:", erro.message);
         return res.status(503).json({ erro: "Não foi possível consultar os indicadores no banco." });
@@ -48,7 +48,9 @@ router.get("/dashboard", async (req, res) => {
 
     // Passa por cada demanda somando 1 no contador certo.
     for (const demanda of demandas) {
-        porStatus[demanda.status]++;
+        if (demanda.status in porStatus){
+            porStatus[demanda.status]++;
+        }
         porPrioridade[demanda.prioridade]++;
         porTipo[demanda.tipo]++;
     }
