@@ -1,3 +1,5 @@
+//Feito por: Gabriel Souza Gonçalves
+
 const formLogin = document.querySelector("#formLogin");
 
 const campoEmail = document.querySelector("#email");
@@ -33,12 +35,20 @@ function limparErros() {
     mensagensErro.forEach(elemento => elemento.textContent = "");
 }
 
-formLogin.addEventListener("submit", function(event) {
+function mostrarMensagem(texto, tipo) {
+    mensagemLogin.innerHTML = "";
+    const aviso = document.createElement("div");
+    aviso.className = `alert alert-${tipo} mt-3`;
+    aviso.textContent = texto;
+    mensagemLogin.appendChild(aviso);
+}
+
+formLogin.addEventListener( async function(event) {
     event.preventDefault();
     limparErros();
 
     const email = campoEmail.value.trim();
-    const senha = campoSenha.value.trim().toLowerCase();
+    const senha = campoSenha.value;
 
     let formValido = true;
 
@@ -58,12 +68,29 @@ formLogin.addEventListener("submit", function(event) {
         formValido = false;
     }
 
-    if(formValido){
-        mensagemLogin.innerHTML = `
-            <div class="alert alert-success mt-3">
-                Login realizado com sucesso!
-            </div>
-            `;
+    if (formValido) {
+    try {
+        const resposta = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha })
+        });
+        const dados = await resposta.json().catch(() => ({}));
+        if (!resposta.ok) {
+            mostrarMensagem(dados.erro || "Não foi possível entrar.", "danger");
+            return;
+        }
+        sessionStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+        const armazenamento = campoLembrar.checked ? localStorage : sessionStorage;
+        armazenamento.setItem("token", dados.token);
+        armazenamento.setItem("usuario", JSON.stringify(dados.usuario));
+        window.location.href = "dashboard.html";
+    } catch (erro) {
+        mostrarMensagem("Não foi possível conectar ao servidor.", "danger");
     }
+}
+4.  
 
 });
