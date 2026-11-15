@@ -1,40 +1,30 @@
-// Autor: Luis Travaglini
-// Compatibilidade provisória com o padrão x-usuario-id combinado pela equipe.
-// IMPORTANTE: um ID enviado pelo navegador pode ser alterado e não autentica o usuário.
-// Substituir por sessão ou token validado pelo servidor antes de uso real.
-import oracledb from "oracledb";
-import { conectarOracle } from "./bancoOracle.js";
+// Autor: Luís Felipe Travaglini
+// Verifica o perfil autenticado e o vínculo do usuário com o projeto.
+import { executarQuery } from "./bancoOracle.js";
+
+const PERMISSOES = {
+    administrador: ["criar_demanda", "editar_demanda", "alterar_status", "cancelar_demanda", "comentar"],
+    lider: ["criar_demanda", "editar_demanda", "alterar_status", "cancelar_demanda", "comentar"],
+    membro: ["alterar_status", "comentar"]
+};
 
 export function exigirPermissaoDemanda(acao) {
-    return async function (req, res, next) {
-        const id = Number(req.headers["x-usuario-id"]);
-        if (!Number.isInteger(id) || id < 1) {
-            return res.status(401).json({ erro: "Faça login para continuar." });
+    return function (req, res, next) {
+        if (!req.usuario) return res.status(401).json({ erro: "Faça login para continuar." });
+        if (!(PERMISSOES[req.usuario.perfil] || []).includes(acao)) {
+            return res.status(403).json({ erro: "Seu perfil não tem permissão para esta ação.", mensagem: "Seu perfil não tem permissão para esta ação." });
         }
-        let conexao;
-        try {
-            conexao = await conectarOracle();
-            const resultado = await conexao.execute(
-                'SELECT id AS "id", perfil AS "perfil" FROM usuarios WHERE id = :id',
-                { id }, { outFormat: oracledb.OUT_FORMAT_OBJECT }
-            );
-            const usuario = resultado.rows[0];
-            if (!usuario) return res.status(401).json({ erro: "Usuário não encontrado. Faça login novamente." });
-            const permissoes = {
-                administrador: ["criar_demanda", "editar_demanda"],
-                lider: ["criar_demanda", "editar_demanda"],
-                membro: ["criar_demanda"]
-            };
-            if (!(permissoes[usuario.perfil] || []).includes(acao)) {
-                return res.status(403).json({ erro: "Seu perfil não tem permissão para esta ação." });
-            }
-            req.usuario = usuario;
-            return next();
-        } catch (erro) {
-            console.error("Erro ao verificar permissão:", erro.code);
-            return res.status(503).json({ erro: "Não foi possível verificar a permissão no banco." });
-        } finally {
-            if (conexao) await conexao.close();
-        }
+        return next();
     };
+}
+
+export async function usuarioTemAcessoAoProjeto(usuario, projetoId) {
+    if (!usuario || !Number.isInteger(Number(projetoId)) || Number(projetoId) < 1) return false;
+    if (usuario.perfil === "administrador") return true;
+    if (usuario.perfil !== "lider" && usuario.perfil !== "membro") return false;
+    const resultado = await executarQuery(
+        "SELECT 1 FROM usuarios_projetos WHERE usuario_id = :usuarioId AND projeto_id = :projetoId",
+        { usuarioId: usuario.id, projetoId: Number(projetoId) }
+    );
+    return resultado.rows.length > 0;
 }

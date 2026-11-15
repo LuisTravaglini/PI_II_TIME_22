@@ -147,7 +147,7 @@ formulario.addEventListener("submit", async function (event) {
     try {
         await requisitar(idDemanda ? `/demandas/${encodeURIComponent(idDemanda)}` : "/demandas", {
             method: idDemanda ? "PUT" : "POST",
-            headers: { "Content-Type": "application/json", "x-usuario-id": String(usuario.id) },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados)
         });
         mostrarResultado(idDemanda ? "Demanda atualizada com sucesso." : "Demanda cadastrada com sucesso.");
