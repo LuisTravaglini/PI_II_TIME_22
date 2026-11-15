@@ -70,7 +70,7 @@ router.get("/demandas", async (req, res) => {
             projetoId: projetoId ? Number(projetoId) : null,
             busca: busca ? busca.trim() : "",
             ordenarPor
-        });
+        }, req.usuario);
 
         return res.status(200).json(demandas);
     } catch (erro) {

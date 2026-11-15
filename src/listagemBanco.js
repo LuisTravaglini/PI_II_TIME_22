@@ -42,11 +42,16 @@ async function consultar(sql, parametros) {
 
 // Lista as demandas aplicando só os filtros que vieram preenchidos.
 // filtros = { status, prioridade, tipo, responsavelId, projetoId, busca, ordenarPor }
-export async function buscarDemandasLista(filtros) {
+// assinatura nova: recebe o usuário logado
+export async function buscarDemandasLista(filtros, usuario) {
     const condicoes = [];
     const parametros = {};
 
-    // Cada filtro vira um pedaço do WHERE com parâmetro (:nome), nunca com o valor colado no texto.
+    // Líder e Membro só enxergam demandas dos projetos a que estão vinculados.
+    if (usuario.perfil !== "administrador") {
+        condicoes.push("d.projeto_id IN (SELECT projeto_id FROM usuarios_projetos WHERE usuario_id = :usuarioLogado)");
+        parametros.usuarioLogado = usuario.id;
+    }
     if (filtros.status) {
         condicoes.push("d.status = :status");
         parametros.status = filtros.status;
@@ -89,13 +94,19 @@ export async function buscarDemandasLista(filtros) {
     sql += ` ORDER BY ${ordem}, d.id`;
 
     return consultar(sql, parametros);
+
 }
+
 
 // Busca os campos que o dashboard precisa de todas as demandas.
 // As contas (totais por status, prioridade etc.) continuam no dashboardROTA.js.
-export async function buscarDemandasDashboard() {
+export async function buscarDemandasDashboard(usuario) {
+    const filtrar = usuario.perfil !== "administrador";
+    const where = filtrar
+        ? "WHERE projeto_id IN (SELECT projeto_id FROM usuarios_projetos WHERE usuario_id = :usuarioLogado)"
+        : "";
     return consultar(`SELECT id AS "id", titulo AS "titulo", tipo AS "tipo",
         prioridade AS "prioridade", status AS "status",
         TO_CHAR(prazo, 'YYYY-MM-DD') AS "prazo"
-        FROM demandas ORDER BY prazo NULLS LAST, id`, {});
+        FROM demandas ${where} ORDER BY prazo NULLS LAST, id`, filtrar ? { usuarioLogado: usuario.id } : {});
 }
