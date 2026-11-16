@@ -43,7 +43,7 @@ function mostrarMensagem(texto, tipo) {
     mensagemLogin.appendChild(aviso);
 }
 
-formLogin.addEventListener( async function(event) {
+formLogin.addEventListener("submit", async function(event) {
     event.preventDefault();
     limparErros();
 
@@ -90,7 +90,6 @@ formLogin.addEventListener( async function(event) {
     } catch (erro) {
         mostrarMensagem("Não foi possível conectar ao servidor.", "danger");
     }
-}
-4.  
+}  
 
 });
