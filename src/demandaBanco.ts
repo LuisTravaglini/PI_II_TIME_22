@@ -13,7 +13,7 @@ const campos = `id AS "id", titulo AS "titulo", descricao AS "descricao",
 export async function buscarProjetos() {
     const conexao = await conectarOracle();
     try {
-        const resultado = await conexao.execute('SELECT id AS "id", nome AS "nome" FROM projetos ORDER BY nome', {}, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        const resultado = await conexao.execute<any>('SELECT id AS "id", nome AS "nome" FROM projetos ORDER BY nome', {}, { outFormat: oracledb.OUT_FORMAT_OBJECT });
         return resultado.rows;
     } finally { await conexao.close(); }
 }
@@ -37,7 +37,7 @@ export async function buscarProjetosDoUsuario(usuario) {
 export async function buscarUsuariosCadastro() {
     const conexao = await conectarOracle();
     try {
-        const resultado = await conexao.execute('SELECT id AS "id", nome AS "nome" FROM usuarios ORDER BY nome', {}, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        const resultado = await conexao.execute<any>('SELECT id AS "id", nome AS "nome" FROM usuarios ORDER BY nome', {}, { outFormat: oracledb.OUT_FORMAT_OBJECT });
         return resultado.rows;
     } finally { await conexao.close(); }
 }
@@ -45,7 +45,7 @@ export async function buscarUsuariosCadastro() {
 export async function buscarDemandaCadastro(id) {
     const conexao = await conectarOracle();
     try {
-        const resultado = await conexao.execute(`SELECT ${campos} FROM demandas WHERE id = :id`, { id }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        const resultado = await conexao.execute<any>(`SELECT ${campos} FROM demandas WHERE id = :id`, { id }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
         return resultado.rows[0];
     } finally { await conexao.close(); }
 }
@@ -96,7 +96,7 @@ export async function gravarDemanda(dados, id) {
                 (titulo, descricao, tipo, prioridade, status, projeto_id, responsavel_id, prazo)
                 VALUES (:titulo, :descricao, :tipo, :prioridade, 'aberta', :projetoId, :responsavelId,
                     TO_DATE(:prazo, 'YYYY-MM-DD')) RETURNING id INTO :idCriado`, parametros);
-            id = resultado.outBinds.idCriado[0];
+            id = (resultado.outBinds as { idCriado: number[] }).idCriado[0];
         }
         const resultado = await conexao.execute(`SELECT ${campos} FROM demandas WHERE id=:id`, { id }, { outFormat: oracledb.OUT_FORMAT_OBJECT });
         await conexao.commit();

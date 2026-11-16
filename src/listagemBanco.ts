@@ -45,7 +45,7 @@ async function consultar(sql, parametros) {
 // assinatura nova: recebe o usuário logado
 export async function buscarDemandasLista(filtros, usuario) {
     const condicoes = [];
-    const parametros = {};
+    const parametros: Record<string, string | number> = {};
 
     // Líder e Membro só enxergam demandas dos projetos a que estão vinculados.
     if (usuario.perfil !== "administrador") {
