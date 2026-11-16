@@ -29,7 +29,7 @@ function idValido(valor) {
 }
 
 router.get("/demandas", async (req, res) => {
-    const { status, prioridade, tipo, responsavelId, projetoId, busca, ordenarPor } = req.query;
+    const { status, prioridade, tipo, responsavelId, projetoId, busca, ordenarPor } = req.query as Record<string, string | undefined>;
 
     // 1. Validações no servidor (as do front não bastam: dá para chamar a API direto pela URL).
     if (status && !STATUS_ACEITOS.includes(status)) {

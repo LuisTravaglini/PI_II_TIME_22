@@ -31,9 +31,9 @@ O cadastro e a edição consultam a BrasilAPI para impedir prazo em feriado naci
 2. Entre na pasta clonada: `cd PI_II_TIME_22` e execute `npm install`.
 3. Copie `.env.example` para `.env`. Configure `TRAK_DB_USER`, `TRAK_DB_PASSWORD`, `TRAK_DB_CONNECT_STRING` e `TRAK_TOKEN_SECRET` com os valores do seu ambiente. O segredo deve ser longo, aleatório e mantido privado. Nunca envie `.env` ao GitHub.
 4. Em um **esquema de testes vazio**, prepare as tabelas e os dados utilizando `banco/criacao.sql`, `banco/carga_inicial.sql` e `banco/carga_demandas.sql`, nessa ordem, após revisar os scripts com a equipe. Não execute novamente a criação ou a carga em um banco existente sem verificar os dados.
-5. Execute `npm start` e abra `http://localhost:3000/login.html`.
+5. Execute `npm run build` e depois `npm start`. Abra `http://localhost:3000/login.html`. Para desenvolvimento, use `npm run dev`.
 
-Os scripts de vínculo entre usuário e projeto e as permissões ainda precisam ser integrados e testados. Sem a tabela `usuarios_projetos`, consultas que dependem dela não funcionarão. Os dados de teste devem ser conferidos no banco escolhido; não use contas de teste em produção.
+Os scripts incluem a tabela de vínculo entre usuário e projeto, mas o esquema do banco escolhido precisa estar atualizado e os vínculos e permissões ainda precisam ser testados em conjunto. Sem a tabela `usuarios_projetos`, consultas que dependem dela não funcionarão. Os dados de teste devem ser conferidos no banco escolhido; não use contas de teste em produção.
 
 ## Perfis e regras previstas
 
@@ -57,4 +57,4 @@ As rotas protegidas utilizam `Authorization: Bearer <token>`; a integração e a
 
 ## Tecnologias
 
-Node.js, Express, Oracle (`oracledb`), HTML, CSS, JavaScript e Bootstrap. A migração do backend para TypeScript está pendente de coordenação com as alterações dos integrantes.
+Node.js, TypeScript, Express, Oracle (`oracledb`), HTML, CSS, JavaScript e Bootstrap. O código do backend está em `src` e é compilado para `dist`.

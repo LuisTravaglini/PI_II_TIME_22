@@ -18,8 +18,8 @@ export async function conectarOracle() {
 // Acrescentado para o detalhesROTA.js 
 
 // Converte { PROJETO_ID: 1 } em { projetoId: 1 }, o formato que as telas usam.
-export function paraCamel(linha) {
-    const novo = {};
+export function paraCamel(linha: Record<string, unknown>): Record<string, any> {
+    const novo: Record<string, any> = {};
     for (const [chave, valor] of Object.entries(linha)) {
         const nome = chave.toLowerCase().replace(/_([a-z])/g, (_, letra) => letra.toUpperCase());
         novo[nome] = valor;
@@ -28,10 +28,10 @@ export function paraCamel(linha) {
 }
 
 // Executa um comando, confirma (commit) e sempre fecha a conexão.
-export async function executarQuery(sql, binds = []) {
+export async function executarQuery(sql: string, binds: oracledb.BindParameters = []) {
     const conexao = await conectarOracle();
     try {
-        return await conexao.execute(sql, binds, {
+        return await conexao.execute<any>(sql, binds, {
             outFormat: oracledb.OUT_FORMAT_OBJECT,
             autoCommit: true
         });

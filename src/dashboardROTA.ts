@@ -27,7 +27,7 @@ function diasAtePrazo(prazo) {
     const dataPrazo = new Date(`${prazo}T00:00:00`);
     const umDiaEmMilissegundos = 1000 * 60 * 60 * 24;
 
-    return Math.round((dataPrazo - hoje) / umDiaEmMilissegundos);
+    return Math.round((dataPrazo.getTime() - hoje.getTime()) / umDiaEmMilissegundos);
 }
 
 router.get("/dashboard", async (req, res) => {
