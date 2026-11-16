@@ -9,6 +9,7 @@ import cadastroRota from "./cadastroROTA.js";
 import demandaRota from "./demandaROTA.js";
 import detalhesRota from "./detalhesROTA.js";  
 import { autenticar } from "./autenticacao.js";
+import projetoRota from "./projetoROTA.js";
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +24,7 @@ app.use(cadastroRota);
 app.use(autenticar); 
 app.use(dashboardRota);
 app.use(listagemRota);
+app.use(projetoRota);
 app.use(demandaRota);
 app.use(detalhesRota);
 
