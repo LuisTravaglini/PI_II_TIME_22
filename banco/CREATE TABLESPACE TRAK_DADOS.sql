@@ -1,3 +1,5 @@
+-- Autores: João Pedro Cayres Villela
+
 CREATE TABLESPACE TRAK_DADOS
 DATAFILE '/opt/oracle/oradata/FREE/FREEPDB1/trak_dados01.dbf'
 SIZE 100M

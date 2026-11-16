@@ -8,19 +8,43 @@
 
     <link rel="stylesheet" href="dashboard.css">
 
-    <title>Dashboard</title>
+    <title>Dashboard | TRAK</title>
 </head>
 
 <body>
 
+    <!-- Cabeçalho fixo no topo: logo, menu de navegação, usuário logado e botão de sair -->
+    <header class="cabecalho">
+        <div class="cabecalho-conteudo">
+            <a class="marca" href="dashboard.html">
+                <img src="TRAK_LOGO_cortada.png" alt="TRAK">
+            </a>
+
+            <nav class="menu">
+                <a href="dashboard.html" class="ativo">Dashboard</a>
+                <a href="listagem_demanda.html">Demandas</a>
+                <!-- Escondidos para o Membro da Equipe pelo dashboard.js (ele não cadastra demandas nem projetos) -->
+                <a href="cadastro-demanda.html" id="linkNovaDemanda">Nova demanda</a>
+                <a href="criar_projeto.html" id="linkNovoProjeto">Novo projeto</a>
+            </nav>
+
+            <div class="cabecalho-usuario">
+                <!-- Nome e perfil preenchidos pelo dashboard.js com o usuário do login -->
+                <div class="usuario-info">
+                    <span class="usuario-nome" id="usuarioNome"></span>
+                    <span class="usuario-perfil" id="usuarioPerfil"></span>
+                </div>
+                <a href="login.html" class="botao-sair" onclick="TRAK_AUTH.sair(); return false;">Sair</a>
+            </div>
+        </div>
+    </header>
+
     <div class="secao">
 
-        <div class="cabecalho-topo">
-            <img src="TRAK_LOGO_cortada.png" alt="Logo do sistema" class="logo">
-            <!-- Atalho para a lista completa de demandas -->
-            <a href="listagem_demanda.html" class="link-listagem">Ver todas as demandas</a>
+        <div class="titulo-pagina">
+            <h2>Dashboard de demandas</h2>
+            <p class="subtitulo">Resumo das demandas dos projetos que você acompanha.</p>
         </div>
-        <h2>Dashboard de demandas</h2>
         <!-- Mensagem de erro da API (fica vazia quando dá tudo certo) -->
         <p id="erroDashboard" class="mensagem-erro" role="alert"></p>
 

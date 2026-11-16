@@ -1,3 +1,4 @@
+-- FEITO POR: Luis Felippe Travaglini
 -- Estrutura proposta para o TRAK, para executar em um esquema Oracle vazio.
 -- Revisar em equipe antes de executar: CREATE TABLE altera o banco.
 CREATE TABLE usuarios (

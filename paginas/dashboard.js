@@ -152,5 +152,24 @@ async function carregarDashboard() {
     });
 }
 
-// Quando a página terminar de carregar, busca os dados.
-document.addEventListener("DOMContentLoaded", carregarDashboard);
+// Preenche o cabeçalho com o usuário logado (guardado pelo login, lido pelo auth.js)
+// e esconde "Nova demanda" e "Novo projeto" do Membro da Equipe, que não pode cadastrar nenhum dos dois.
+function preencherCabecalho() {
+    const nomesPerfil = { administrador: "Administrador", lider: "Líder de Projeto", membro: "Membro da Equipe" };
+    const usuario = window.TRAK_AUTH ? TRAK_AUTH.usuario() : null;
+    if (!usuario) return;
+
+    document.querySelector("#usuarioNome").textContent = usuario.nome;
+    document.querySelector("#usuarioPerfil").textContent = nomesPerfil[usuario.perfil] || usuario.perfil;
+
+    if (usuario.perfil === "membro") {
+        document.querySelector("#linkNovaDemanda").remove();
+        document.querySelector("#linkNovoProjeto").remove();
+    }
+}
+
+// Quando a página terminar de carregar, monta o cabeçalho e busca os dados.
+document.addEventListener("DOMContentLoaded", function () {
+    preencherCabecalho();
+    carregarDashboard();
+});

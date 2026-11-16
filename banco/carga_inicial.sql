@@ -1,3 +1,4 @@
+-- Autores: João Pedro Cayres Villela
 -- Dados fictícios para demonstração local. Executar apenas em um banco vazio de testes.
 -- As senhas são exclusivamente de teste e devem ser substituídas antes de qualquer uso real.
 INSERT INTO projetos (nome) VALUES ('Sistema TRAK');
